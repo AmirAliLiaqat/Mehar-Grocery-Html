@@ -59,7 +59,6 @@
     opacity: 1;
 }
 
-
 /*** Button ***/
 .btn {
     font-weight: 500;
@@ -97,7 +96,6 @@
     justify-content: center;
     font-weight: normal;
 }
-
 
 /*** Navbar ***/
 .fixed-top {
@@ -161,7 +159,6 @@
     }
 }
 
-
 /*** Header ***/
 .carousel-caption {
     top: 0;
@@ -189,6 +186,48 @@
     border-radius: 3rem;
 }
 
+/*** Dashboard ***/
+#admin_menu{
+    background-color: var(--primary);
+    padding: 20px 10px;
+    min-height: 700px;
+}
+
+.menu-list{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#admin_menu .menu-list li a {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 10px 10px;
+    border-radius: 10px;
+    display: block;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+#admin_menu .menu-list li.active a, #admin_menu .menu-list li a:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.admin_content{
+    background-image: url(../img/bg-icon.png);
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+}
+
+/*** Media Query ***/
 @media (max-width: 768px) {
     #header-carousel .carousel-item {
         position: relative;
@@ -249,8 +288,6 @@
     transform: translateX(0);
 }
 
-
-
 /*** About ***/
 .about-img img {
     position: relative;
@@ -273,7 +310,6 @@
     transform: skew(20deg);
     z-index: 1;
 }
-
 
 /*** Product ***/
 .nav-pills .nav-item .btn {
@@ -300,7 +336,6 @@
 .product-item small a:hover {
     color: var(--primary) !important;
 }
-
 
 /*** Testimonial ***/
 .testimonial-carousel .owl-item .testimonial-item img {
@@ -351,7 +386,6 @@
     color: #FFFFFF;
     background: var(--primary);
 }
-
 
 /*** Footer ***/
 .footer {
