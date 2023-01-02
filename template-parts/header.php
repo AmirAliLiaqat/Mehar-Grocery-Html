@@ -49,10 +49,10 @@
                     <small class="fa fa-search text-body"></small>
                 </a>
                 <div class="nav-item dropdown">
-                    <span class="btn-sm-square bg-white rounded-circle ms-3 mb-3" style="cursor: pointer;">
+                    <span class="btn-sm-square bg-white rounded-circle ms-3" style="cursor: pointer;">
                         <small class="fa fa-user text-body"></small>
                     </span>
-                    <div class="dropdown-menu m-0" style="left: -40px;">
+                    <div class="dropdown-menu" style="left: -40px; margin-top: 25px;">
                         <?php
                             if(isset($_SESSION['status']) && $_SESSION['status'] === 'user') { ?>
                                 <div class="user_profile text-center">
