@@ -12,7 +12,7 @@
                 <h3 class="fw-bold mb-0"><span style="color: #63c644;">Hello,</span> <span style="color: #F65005;"><?php echo $_SESSION['fname'] . ' ' . $_SESSION['lname']; ?></span></h3>
             </div><!--user_profile-->
             </span>
-            <div class="dropdown-menu m-0">
+            <div class="dropdown-menu" style="margin-top: 15px;">
                 <a href="view_user.php" class="dropdown-item"><i class="fa-solid fa-user"></i> View Account</a>
                 <a href="delete_user.php" class="dropdown-item"><i class="fa-solid fa-trash"></i> Delete Account</a>
                 <a href="../logout.php" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
