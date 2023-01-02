@@ -11,26 +11,13 @@
 </head>
 
 <body>
-    
-    <?php require_once 'template-parts/header.php'; ?>
-
-    <!-- Page Header Start -->
-    <div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
-        <div class="container">
-            <h1 class="display-3 mb-3 animated slideInDown">Register</h1>
-            <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a class="text-body" href="#">Home</a></li>
-                    <li class="breadcrumb-item text-dark active" aria-current="page">Register</li>
-                </ol>
-            </nav>
-        </div><!--container-->
-    </div><!--container-fluid-->
-    <!-- Page Header End -->
 
     <!-- Contact Start -->
     <div class="container-xxl py-6">
         <div class="container">
+            <div class="text-center">
+                <a href="index.php"><img src="img/logo.png" alt=""></a>
+            </div><!--text-center-->
             <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-5 mb-3">Register</h1>
                 <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
