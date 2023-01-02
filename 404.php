@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Foody - Organic Food Website Template</title>
+    <title>404 - Mehar Grocery</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -38,15 +38,15 @@
                     <h1 class="display-1">404</h1>
                     <h1 class="mb-4">Page Not Found</h1>
                     <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5" href="">Go Back To Home</a>
+                    <a class="btn btn-primary rounded-pill py-3 px-5" href="index.php">Go Back To Home</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- 404 End -->
 
-    <?php require 'template-parts/header.php'; ?>
-    <?php require 'template-parts/header-links.php'; ?>
+    <?php require 'template-parts/footer.php'; ?>
+    <?php require 'template-parts/footer-links.php'; ?>
 </body>
 
 </html>
