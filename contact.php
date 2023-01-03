@@ -7,12 +7,12 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    <?php require 'template-parts/header-links.php'; ?>
+    <?php require_once 'template-parts/header-links.php'; ?>
 </head>
 
 <body>
     
-    <?php require 'template-parts/header.php'; ?>
+    <?php require_once 'template-parts/header.php'; ?>
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
@@ -30,12 +30,12 @@
     <!-- Page Header End -->
 
     <!-- Contact Start -->
-    <div class="container-xxl py-6">
+    <div class="container-xxl py-5">
         <div class="container">
             <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-5 mb-3">Contact Us</h1>
                 <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
-            </div>
+            </div><!--section-header-->
             <div class="row g-5 justify-content-center">
                 <div class="col-lg-5 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="bg-primary text-white d-flex flex-column justify-content-center h-100 p-5">
@@ -53,44 +53,75 @@
                             <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
-                </div>
+                </div><!--col-lg-5-->
                 <div class="col-lg-7 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                    <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://phpcodex.com/contact-form">Download Now</a>.</p>
-                    <form>
+                    <?php
+                        require_once 'config.php';
+
+                        if(isset($_POST['send_message'])) {
+                            $name = $_POST['name'];
+                            $email = $_POST['email'];
+                            $subject = $_POST['subject'];
+                            $message = $_POST['message'];
+                            date_default_timezone_set("Asia/Karachi");
+                            $current_date = date("h:i:s:a M d Y");
+
+                            $send_message = "INSERT INTO `messages`(`name`, `email`, `subject`, `message`, `activity`) 
+                            VALUES ('$name','$email','$subject','$message','$current_date')";
+                            $send_message_query = mysqli_query($conn, $send_message) or die("Query Failed");
+
+                            if($send_message_query) {
+                                echo '
+                                    <div class="message">
+                                        <span>Your message send successfully...</span>
+                                        <i onclick="this.parentElement.remove();">&#10060;</i>
+                                    </div><!--message-->
+                                ';
+                            } else {
+                                echo '
+                                    <div class="message">
+                                        <span>Failed to send message!</span>
+                                        <i onclick="this.parentElement.remove();">&#10060;</i>
+                                    </div><!--message-->
+                                ';
+                            }
+                        }
+                    ?>
+                    <form action="" method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
                                     <label for="name">Your Name</label>
-                                </div>
-                            </div>
+                                </div><!--form-floating-->
+                            </div><!--col-md-6-->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
                                     <label for="email">Your Email</label>
-                                </div>
-                            </div>
+                                </div><!--form-floating-->
+                            </div><!--col-md-6-->
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
                                     <label for="subject">Subject</label>
-                                </div>
-                            </div>
+                                </div><!--form-floating-->
+                            </div><!--col-md-6-->
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 200px"></textarea>
+                                    <textarea class="form-control" placeholder="Leave a message here" id="message" name="message" style="height: 200px"></textarea>
                                     <label for="message">Message</label>
-                                </div>
-                            </div>
+                                </div><!--form-floating-->
+                            </div><!--col-md-6-->
                             <div class="col-12">
-                                <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Send Message</button>
-                            </div>
-                        </div>
+                                <button class="btn btn-primary rounded-pill py-3 px-5" name="send_message">Send Message</button>
+                            </div><!--col-12-->
+                        </div><!--row-->
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                </div><!--col-lg-7-->
+            </div><!--row-->
+        </div><!--container-->
+    </div><!--container-xxl-->
     <!-- Contact End -->
 
     <!-- Google Map Start -->
@@ -101,8 +132,8 @@
     </div>
     <!-- Google Map End -->
 
-    <?php require 'template-parts/footer.php'; ?>
-    <?php require 'template-parts/footer-links.php'; ?>
+    <?php require_once 'template-parts/footer.php'; ?>
+    <?php require_once 'template-parts/footer-links.php'; ?>
 </body>
 
 </html>
