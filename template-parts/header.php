@@ -59,8 +59,8 @@
                                 <div class="user_profile text-center">
                                     <h6 class="fw-bold border-bottom pb-2"><span style="color: #63c644;">Hello,</span> <span style="color: #F65005;"><?php echo $_SESSION['fname'] . ' ' . $_SESSION['lname']; ?></span></h6>
                                 </div><!--user_profile-->
-                                <a href="view_user.php?id=<?php echo $_SESSION['id']; ?>" class="dropdown-item"><i class="fa-solid fa-user"></i> View Account</a>
-                                <a href="delete_user.php" class="dropdown-item"><i class="fa-solid fa-trash"></i> Delete Account</a>
+                                <a href="view_user.php?result=<?php echo sha1("ID not found"); ?>&id=<?php echo $_SESSION['id']; ?>" class="dropdown-item"><i class="fa-solid fa-user"></i> View Account</a>
+                                <a href="delete_user.php?result=<?php echo sha1("ID not found"); ?>&id=<?php echo $_SESSION['id']; ?>" class="dropdown-item"><i class="fa-solid fa-trash"></i> Delete Account</a>
                                 <a href="logout.php" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                             <?php
                             } else { ?>
