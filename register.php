@@ -15,73 +15,73 @@
     <!-- Contact Start -->
     <div class="container-xxl py-6">
         <div class="container">
-            <div class="text-center">
+            <div class="text-center mb-5">
                 <a href="index.php"><img src="img/logo.png" alt=""></a>
             </div><!--text-center-->
             <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-5 mb-3">Register</h1>
                 <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
             </div><!--section-header-->
-            <?php
-                require_once 'config.php'; 
-                error_reporting(0);
-
-                // Code for register form
-                if(isset($_POST['register'])) {
-                    
-                    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
-                    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
-                    $email = mysqli_real_escape_string($conn, $_POST['email']);
-                    $password = mysqli_real_escape_string($conn, $_POST['password']);
-                    $number = mysqli_real_escape_string($conn, $_POST['number']);
-                    $country = mysqli_real_escape_string($conn, $_POST['country']);
-                    $city = mysqli_real_escape_string($conn, $_POST['city']);
-                    $zip = mysqli_real_escape_string($conn, $_POST['zip']);
-                    $status = mysqli_real_escape_string($conn, $_POST['status']);
-
-                    if(isset($_FILES['profile_pic']['name'])) {
-                        $profile_pic = $_FILES['profile_pic']['name'];
-                        // Auto rename image
-                        $ext = end(explode('.',$profile_pic));
-                        // Rename the image
-                        $profile_pic = "profile_pic_".rand(00,99).'.'.$ext;
-                        $source_path = $_FILES['profile_pic']['tmp_name'];
-                        $destination_path = "upload-images/".$profile_pic;
-
-                        // Finally upload the image
-                        $upload = move_uploaded_file($source_path, $destination_path);
-                    } else {
-                        $profile_pic = "";
-                    }
-
-                    $register_user = "INSERT INTO `users`(`profile_pic`, `fname`, `lname`, `email`, `password`, `phone`, `country`, `city`, `zip`, `status`) 
-                    VALUES ('$profile_pic','$fname','$lname','$email', md5('$password'), '$number','$country','$city','$zip', '$status')";
-
-                    $register_user_query = mysqli_query($conn, $register_user) or die('Query Failed');
-                
-                    if($register_user_query) {
-                        $message[] = "User register Successfully...";
-                    } else {
-                        $message[] = "There was a problem to register the user...";
-                    }
-                    
-                }
-            ?>
-            
-            <?php
-                if(isset($message)) {
-                    foreach ($message as $message) {
-                        echo '
-                            <div class="message">
-                                <span>'.$message.'</span>
-                                <i onclick="this.parentElement.remove();">&#10060;</i>
-                            </div><!--message-->
-                        ';
-                    }
-                }
-            ?>
             <div class="row g-5 justify-content-center">
                 <div class="col-lg-7 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+                    <?php
+                        require_once 'config.php'; 
+                        error_reporting(0);
+
+                        // Code for register form
+                        if(isset($_POST['register'])) {
+                            
+                            $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+                            $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+                            $email = mysqli_real_escape_string($conn, $_POST['email']);
+                            $password = mysqli_real_escape_string($conn, $_POST['password']);
+                            $number = mysqli_real_escape_string($conn, $_POST['number']);
+                            $country = mysqli_real_escape_string($conn, $_POST['country']);
+                            $city = mysqli_real_escape_string($conn, $_POST['city']);
+                            $zip = mysqli_real_escape_string($conn, $_POST['zip']);
+                            $status = mysqli_real_escape_string($conn, $_POST['status']);
+
+                            if(isset($_FILES['profile_pic']['name'])) {
+                                $profile_pic = $_FILES['profile_pic']['name'];
+                                // Auto rename image
+                                $ext = end(explode('.',$profile_pic));
+                                // Rename the image
+                                $profile_pic = "profile_pic_".rand(00,99).'.'.$ext;
+                                $source_path = $_FILES['profile_pic']['tmp_name'];
+                                $destination_path = "upload-images/".$profile_pic;
+
+                                // Finally upload the image
+                                $upload = move_uploaded_file($source_path, $destination_path);
+                            } else {
+                                $profile_pic = "";
+                            }
+
+                            $register_user = "INSERT INTO `users`(`profile_pic`, `fname`, `lname`, `email`, `password`, `phone`, `country`, `city`, `zip`, `status`) 
+                            VALUES ('$profile_pic','$fname','$lname','$email', md5('$password'), '$number','$country','$city','$zip', '$status')";
+
+                            $register_user_query = mysqli_query($conn, $register_user) or die('Query Failed');
+                        
+                            if($register_user_query) {
+                                $message[] = "User register Successfully...";
+                            } else {
+                                $message[] = "There was a problem to register the user...";
+                            }
+                            
+                        }
+                    ?>
+                    
+                    <?php
+                        if(isset($message)) {
+                            foreach ($message as $message) {
+                                echo '
+                                    <div class="message">
+                                        <span>'.$message.'</span>
+                                        <i onclick="this.parentElement.remove();">&#10060;</i>
+                                    </div><!--message-->
+                                ';
+                            }
+                        }
+                    ?>
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-md-12">
