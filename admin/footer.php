@@ -1,4 +1,4 @@
-<footer class="border-top" style="background: var(--primary);">
+<footer class="border-top wow fadeInUP" style="background: var(--primary);">
     <div class="container-fluid d-flex justify-content-between p-3">
         <div class="copyright">
             <p class="text-white mb-0">Copyright © 2023. All Rights Reserved.</p>
