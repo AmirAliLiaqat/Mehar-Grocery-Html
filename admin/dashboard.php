@@ -18,7 +18,7 @@
 
     <section class="admin_section section_content wow fadeInUP">
         <div class="container-fluid">
-            <div class="main_content text-white">
+            <div class="main_content">
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-12" id="admin_menu">
                         <?php require_once 'sidebar.php'; ?>
