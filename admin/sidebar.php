@@ -1,4 +1,4 @@
-<ul class="menu-list wow fadeInUP">
+<ul class="menu-list text-white wow fadeInUP">
     <li <?php if(basename($_SERVER['PHP_SELF']) == "dashboard.php") echo 'class="active"'; ?>><a href="dashboard.php">Dashboard</a></li>
     <li <?php if(basename($_SERVER['PHP_SELF']) == "posts.php") echo 'class="active"'; ?>><a href="posts.php">Posts</a></li>
     <li <?php if(basename($_SERVER['PHP_SELF']) == "products.php") echo 'class="active"'; ?>><a href="products.php">Products</a></li>
