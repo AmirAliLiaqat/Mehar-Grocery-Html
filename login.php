@@ -53,7 +53,7 @@
                                 if($_SESSION['status'] === 'user') { 
                                     header('location: index.php');
                                 } else {
-                                    header('location: dashboard/dashboard.php');
+                                    header('location: admin/dashboard.php');
                                 }
                             } else {
                                 $message[] = "Login Details are incorrect...";
