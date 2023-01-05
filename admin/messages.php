@@ -24,7 +24,7 @@
                         <?php require_once 'sidebar.php'; ?>
                     </div><!--col-lg-2-->
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
-                        <h1 class="mb-5">All Products <a href="add_and_edit_product.php" class="btn btn-primary rounded-pill float-end py-3 px-5">Add New</a></h1>
+                        <h1 class="mb-5">All Messages</h1>
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr class="table-dark text-center">
