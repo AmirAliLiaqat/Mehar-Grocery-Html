@@ -58,7 +58,11 @@
                                 </tr>
                                 <?php
                                         }
-                                    }    
+                                    }  else { ?>
+                                        <tr>
+                                            <td colspan="7" class="text-center fw-bold">No message found !!!</td>
+                                        </tr>
+                                    <?php }   
                                 ?>
                             </tbody>
                         </table>
