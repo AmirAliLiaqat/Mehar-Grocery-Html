@@ -4,6 +4,7 @@
 
     $post_id = $_GET['post_id'];
     $message_id = $_GET['message_id'];
+    $user_id = $_GET['user_id'];
 
     $select_post_img = "SELECT `featured_image` FROM `posts` WHERE `id` = '$post_id'";
     $select_post_img_query = mysqli_query($conn, $select_post_img) or die("Query Unsuccessfull");
@@ -37,6 +38,14 @@
         $delete_message_query = mysqli_query($conn, $delete_message);
 
         header('location: messages.php');
+    }
+
+    // code for deleting users...
+    if(isset($user_id)) {
+        $delete_user = "DELETE FROM `users` WHERE `id` = $user_id";
+        $delete_user_query = mysqli_query($conn, $delete_user);
+
+        header('location: users.php');
     }
 
 ?>
