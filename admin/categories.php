@@ -24,10 +24,11 @@
                         <?php require_once 'sidebar.php'; ?>
                     </div><!--col-lg-2-->
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
-                        <h1>Add Category</h1>
+                        <h1><?php echo (isset($_GET['result']) == "edit_cat") ? "Edit" : "Add" ?> Category</h1>
                         <?php 
                             require_once '../config.php';
 
+                            // code for adding new category...
                             if(isset($_POST['add_category'])) {
                                 $category_name = mysqli_real_escape_string($conn, $_POST['category_name']);
                                 $category_description = mysqli_real_escape_string($conn, $_POST['category_description']);
@@ -37,6 +38,23 @@
 
                                 if($add_category_query) {
                                     $message[] = "Category added successfully...";
+                                } else {
+                                    $message[] = "There was a problem with adding new category!";
+                                }
+                            }
+
+                            // code for updateing category...
+                            if(isset($_POST['update_category'])) {
+                                $cat_id =  $_GET['cat_id'];
+
+                                $update_category_name = mysqli_real_escape_string($conn, $_POST['update_category_name']);
+                                $update_category_description = mysqli_real_escape_string($conn, $_POST['update_category_description']);
+
+                                $update_category = "UPDATE `categories` SET `cat_name`='$update_category_name',`cat_description`='$update_category_description' WHERE `cat_id` = '$cat_id'";
+                                $update_category_query = mysqli_query($conn, $update_category) or die("Query Failed");
+
+                                if($update_category_query) {
+                                    $message[] = "Category updated successfully...";
                                 } else {
                                     $message[] = "There was a problem with adding new category!";
                                 }
@@ -56,17 +74,41 @@
                         ?>
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-12">
+                                <?php 
+                                    if(isset($_GET['cat_id'])) {
+                                        $cat_id =  $_GET['cat_id'];
+
+                                        $fetch_category = "SELECT * FROM `categories` WHERE `cat_id` = '$cat_id'";
+                                        $fetch_category_query = mysqli_query($conn, $fetch_category) or die("Query Failed!");
+
+                                        while($row = mysqli_fetch_assoc($fetch_category_query)) {
+                                ?>
+                                <!-- code for updating form -->
                                 <form action="" method="post">
                                     <div class="form-group mb-3">
-                                        <label for="category_name" class="form-label fw-bold">Name:</label>
-                                        <input type="text" name="category_name" class="form-control">
+                                        <label for="update_category_name" class="form-label fw-bold">Name:</label>
+                                        <input type="text" name="update_category_name" class="form-control" value="<?php echo $row['cat_name']; ?>">
                                     </div><!--form-group-->
                                     <div class="form-group mb-3">
-                                        <label for="category_description" class="form-label fw-bold">Description:</label>
-                                        <textarea name="category_description" rows="10" class="form-control"></textarea>
+                                        <label for="update_category_description" class="form-label fw-bold">Description:</label>
+                                        <textarea name="update_category_description" rows="10" class="form-control"><?php echo $row['cat_description']; ?></textarea>
                                     </div><!--form-group-->
-                                    <button class="btn btn-primary rounded-pill py-3 px-5" name="add_category" type="submit">Add Category</button>
+                                    <button class="btn btn-primary rounded-pill py-3 px-5" name="update_category" type="submit">Update Category</button>
                                 </form>
+                                <?php } } else { ?>
+                                    <!-- code for adding form -->
+                                    <form action="" method="post">
+                                        <div class="form-group mb-3">
+                                            <label for="category_name" class="form-label fw-bold">Name:</label>
+                                            <input type="text" name="category_name" class="form-control">
+                                        </div><!--form-group-->
+                                        <div class="form-group mb-3">
+                                            <label for="category_description" class="form-label fw-bold">Description:</label>
+                                            <textarea name="category_description" rows="10" class="form-control"></textarea>
+                                        </div><!--form-group-->
+                                        <button class="btn btn-primary rounded-pill py-3 px-5" name="add_category" type="submit">Add Category</button>
+                                    </form>
+                                <?php } ?>
                             </div><!--col-lg-4-->
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <table class="table table-bordered table-striped table-hover">
