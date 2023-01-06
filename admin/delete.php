@@ -5,6 +5,7 @@
     $post_id = $_GET['post_id'];
     $message_id = $_GET['message_id'];
     $user_id = $_GET['user_id'];
+    $cat_id = $_GET['cat_id'];
 
     $select_post_img = "SELECT `featured_image` FROM `posts` WHERE `id` = '$post_id'";
     $select_post_img_query = mysqli_query($conn, $select_post_img) or die("Query Unsuccessfull");
@@ -46,6 +47,14 @@
         $delete_user_query = mysqli_query($conn, $delete_user);
 
         header('location: users.php');
+    }
+
+    // code for deleting categories...
+    if(isset($cat_id)) {
+        $delete_category = "DELETE FROM `categories` WHERE `cat_id` = $cat_id";
+        $delete_category_query = mysqli_query($conn, $delete_category);
+
+        header('location: categories.php');
     }
 
 ?>
