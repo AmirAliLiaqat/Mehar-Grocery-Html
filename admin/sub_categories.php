@@ -24,7 +24,7 @@
                         <?php require_once 'sidebar.php'; ?>
                     </div><!--col-lg-2-->
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
-                        <h1>Add Sub Category</h1>
+                    <h1><?php echo (isset($_GET['result']) == "edit_sub_cat") ? "Edit" : "Add" ?> Sub Category</h1>
                         <?php 
                             require_once '../config.php';
 
@@ -45,6 +45,27 @@
                                     $message[] = "<span class='text-danger'>There was a problem with adding new sub category!</span>";
                                 }
                             }
+
+                            // code for updateing sub category...
+                            if(isset($_POST['update_sub_category'])) {
+                                $sub_cat_id =  $_GET['sub_cat_id'];
+
+                                $update_sub_category_title = mysqli_real_escape_string($conn, $_POST['update_sub_category_title']);
+                                $update_sub_category_description = mysqli_real_escape_string($conn, $_POST['update_sub_category_description']);
+                                $update_parent_category = mysqli_real_escape_string($conn, $_POST['update_parent_category']);
+
+                                $update_sub_category = "UPDATE `sub_categories` SET 
+                                `sub_cat_title`='$update_sub_category_title',
+                                `sub_cat_description`='$update_sub_category_description',
+                                `cat_parent`='$update_parent_category' WHERE `sub_cat_id` = '$sub_cat_id'";
+                                $update_sub_category_query = mysqli_query($conn, $update_sub_category) or die("Query Failed");
+
+                                if($update_sub_category_query) {
+                                    $message[] = "<span class='text-success'>Sub category updated successfully...</span>";
+                                } else {
+                                    $message[] = "<span class='text-danger'>There was a problem with updating sub category!</span>";
+                                }
+                            }
                         ?>
                         <?php
                             if(isset($message)) {
@@ -60,6 +81,42 @@
                         ?>
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-12">
+                                <?php 
+                                    if(isset($_GET['sub_cat_id'])) {
+                                        $sub_cat_id =  $_GET['sub_cat_id'];
+
+                                        $fetch_sub_category = "SELECT * FROM `sub_categories` WHERE `sub_cat_id` = '$sub_cat_id'";
+                                        $fetch_sub_category_query = mysqli_query($conn, $fetch_sub_category) or die("Query Failed!");
+
+                                        while($sub_category = mysqli_fetch_assoc($fetch_sub_category_query)) {
+                                ?>
+                                <!-- code for updating form -->
+                                <form action="" method="post">
+                                    <div class="form-group mb-3">
+                                        <label for="update_sub_category_title" class="form-label fw-bold">Title:</label>
+                                        <input type="text" name="update_sub_category_title" class="form-control" value="<?php echo $sub_category['sub_cat_title']; ?>" required>
+                                    </div><!--form-group-->
+                                    <div class="form-group mb-3">
+                                        <label for="update_parent_category" class="form-label fw-bold">Parent Category:</label>
+                                        <select name="update_parent_category" class="form-select" required>
+                                            <?php
+                                                $fetch_category = "SELECT * FROM `categories`";
+                                                $fetch_category_query = mysqli_query($conn, $fetch_category) or die("Query Failed");
+                                                $sr = 1;
+
+                                                while($category = mysqli_fetch_assoc($fetch_category_query)) :
+                                            ?>
+                                            <option <?php if($category['cat_id'] == $sub_category['cat_parent']) {echo "selected";} ?> value="<?php echo $category['cat_id']; ?>"><?php echo $category['cat_name']; ?></option>
+                                            <?php endwhile;?>
+                                        </select>
+                                    </div><!--form-group-->
+                                    <div class="form-group mb-3">
+                                        <label for="update_sub_category_description" class="form-label fw-bold">Description:</label>
+                                        <textarea name="update_sub_category_description" rows="10" class="form-control"><?php echo $sub_category['sub_cat_description']; ?></textarea>
+                                    </div><!--form-group-->
+                                    <button class="btn btn-primary rounded-pill py-3 px-5" name="update_sub_category" type="submit">Update Sub Category</button>
+                                </form>
+                                <?php } } else { ?>
                                 <!-- code for adding form -->
                                 <form action="" method="post">
                                     <div class="form-group mb-3">
@@ -87,6 +144,7 @@
                                     </div><!--form-group-->
                                     <button class="btn btn-primary rounded-pill py-3 px-5" name="add_sub_category" type="submit">Add Sub Category</button>
                                 </form>
+                                <?php } ?>
                             </div><!--col-lg-4-->
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <table class="table table-bordered table-striped table-hover">
