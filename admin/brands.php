@@ -24,7 +24,7 @@
                         <?php require_once 'sidebar.php'; ?>
                     </div><!--col-lg-2-->
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
-                        <h1>Add Brands</h1>
+                        <h1><?php echo (isset($_GET['result']) == "edit_brand") ? "Edit" : "Add" ?> Brand</h1>
                         <?php 
                             require_once '../config.php';
 
@@ -44,7 +44,22 @@
                                 }
                             }
 
-                            
+                            // code for updating brand...
+                            if(isset($_POST['update_brand'])) {
+                                $brand_id =  $_GET['brand_id'];
+
+                                $update_brand_title = mysqli_real_escape_string($conn, $_POST['update_brand_title']);
+                                $update_brand_category = mysqli_real_escape_string($conn, $_POST['update_brand_category']);
+
+                                $update_brand = "UPDATE `brands` SET `brand_title`='$update_brand_title',`brand_cat`='$update_brand_category' WHERE `brand_id` = '$brand_id'";
+                                $update_brand_query = mysqli_query($conn, $update_brand) or die("Query Failed");
+
+                                if($update_brand_query) {
+                                    $message[] = "<span class='text-success'>Brand updated successfully...</span>";
+                                } else {
+                                    $message[] = "<span class='text-danger'>There was a problem with updating brand!</span>";
+                                }
+                            }
                         ?>
                         <?php
                             if(isset($message)) {
@@ -60,12 +75,50 @@
                         ?>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
+                                <?php 
+                                    if(isset($_GET['brand_id'])) {
+                                        $brand_id =  $_GET['brand_id'];
+
+                                        $fetch_brand = "SELECT * FROM `brands` WHERE `brand_id` = '$brand_id'";
+                                        $fetch_brand_query = mysqli_query($conn, $fetch_brand) or die("Query Failed!");
+
+                                        while($brand = mysqli_fetch_assoc($fetch_brand_query)) {
+                                ?>
+                                <!-- code for updating form -->
+                                <form class="row" method="post">
+                                    <div class="col-6">
+                                        <div class="form-group mb-3">
+                                            <label for="update_brand_title" class="form-label fw-bold">Title:</label>
+                                            <input type="text" name="update_brand_title" class="form-control" value="<?php echo $brand['brand_title']; ?>" required>
+                                        </div><!--form-group-->
+                                    </div><!--col-6-->
+                                    <div class="col-6">
+                                        <div class="form-group mb-3">
+                                            <label for="update_brand_category" class="form-label fw-bold">Category:</label>
+                                            <select name="update_brand_category" class="form-select" required>
+                                                <?php
+                                                    $fetch_category = "SELECT * FROM `categories`";
+                                                    $fetch_category_query = mysqli_query($conn, $fetch_category) or die("Query Failed");
+                                                    $sr = 1;
+
+                                                    while($category = mysqli_fetch_assoc($fetch_category_query)) :
+                                                ?>
+                                                <option <?php if($category['cat_id'] == $brand['brand_cat']) {echo "selected";} ?> value="<?php echo $category['cat_id']; ?>"><?php echo $category['cat_name']; ?></option>
+                                                <?php endwhile;?>
+                                            </select>
+                                        </div><!--form-group-->
+                                    </div><!--col-6-->
+                                    <div class="col-12 text-end">
+                                        <button class="btn btn-primary rounded-pill py-3 px-5" name="update_brand" type="submit">Update Brand</button>
+                                    </div><!--col-12-->
+                                </form>
+                                <?php } } else { ?>
                                 <!-- code for adding form -->
                                 <form class="row" method="post">
                                     <div class="col-6">
                                         <div class="form-group mb-3">
                                             <label for="brand_title" class="form-label fw-bold">Title:</label>
-                                            <input type="text" name="brand_title" class="form-control">
+                                            <input type="text" name="brand_title" class="form-control" required>
                                         </div><!--form-group-->
                                     </div><!--col-6-->
                                     <div class="col-6">
@@ -89,6 +142,7 @@
                                         <button class="btn btn-primary rounded-pill py-3 px-5" name="add_brand" type="submit">Add Brand</button>
                                     </div><!--col-12-->
                                 </form>
+                                <?php } ?>
                                 <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr class="table-dark text-start">
@@ -123,7 +177,7 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success rounded" href="categories.php?query=<?php echo sha1("Don't do inlegal activities"); ?>&result=edit_brand&brand_id=<?php echo $row['brand_id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="btn btn-success rounded" href="brands.php?query=<?php echo sha1("Don't do inlegal activities"); ?>&result=edit_brand&brand_id=<?php echo $row['brand_id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a class="btn btn-danger rounded" href="delete.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&brand_id=<?php echo $row['brand_id']; ?>" role="button"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
