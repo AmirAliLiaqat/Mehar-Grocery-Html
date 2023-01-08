@@ -25,6 +25,73 @@
                     </div><!--col-lg-2-->
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
                         <h1>Options</h1>
+                        <?php
+                            require_once '../config.php';
+
+                            if(isset($_POST['add_option'])) {
+                                $site_name = mysqli_real_escape_string($conn, $_POST['site_name']);
+                                $site_slogen = mysqli_real_escape_string($conn, $_POST['site_slogen']);
+                                $site_description = mysqli_real_escape_string($conn, $_POST['site_description']);
+
+                                $contact_address = mysqli_real_escape_string($conn, $_POST['contact_address']);
+                                $contact_number = mysqli_real_escape_string($conn, $_POST['contact_number']);
+                                $contact_email = mysqli_real_escape_string($conn, $_POST['contact_email']);
+
+                                $currency_format = mysqli_real_escape_string($conn, $_POST['currency_format']);
+
+                                $about_text = mysqli_real_escape_string($conn, $_POST['about_text']);
+                                $newsletter_text = mysqli_real_escape_string($conn, $_POST['newsletter_text']);
+                                $footer_copyright = mysqli_real_escape_string($conn, $_POST['footer_copyright']);
+
+                                $twitter_link = mysqli_real_escape_string($conn, $_POST['twitter_link']);
+                                $facebook_link = mysqli_real_escape_string($conn, $_POST['facebook_link']);
+                                $youtube_link = mysqli_real_escape_string($conn, $_POST['youtube_link']);
+                                $instagram_link = mysqli_real_escape_string($conn, $_POST['instagram_link']);
+                                $linkedin_link = mysqli_real_escape_string($conn, $_POST['linkedin_link']);
+                                $social_links = $twitter_link . ', ' . $facebook_link . ', ' . $youtube_link . ', ' . $instagram_link . ', ' . $linkedin_link;
+
+                                if(isset($_FILES['site_logo']['name'])) {
+                                    $site_logo = $_FILES['site_logo']['name'];
+                                    // Auto rename image
+                                    $ext = end(explode('.',$site_logo));
+                                    // Rename the image
+                                    $site_logo = "site_logo_".'.'.$ext;
+                                    $source_path = $_FILES['site_logo']['tmp_name'];
+                                    $destination_path = "../upload-images/".$site_logo;
+    
+                                    // Finally upload the image
+                                    $upload = move_uploaded_file($source_path, $destination_path);
+                                } else {
+                                    $site_logo = "";
+                                }
+
+                                $add_options = "INSERT INTO `options`(`site_name`, `site_logo`, `site_slogen`, 
+                                `site_description`, `currency_format`, `about_text`, `newsletter_text`, 
+                                `footer_text`, `contact_address`, `contact_number`, `contact_email`, `social_links`) 
+                                VALUES ('$site_name','$site_logo','$site_slogen','$site_description',
+                                '$currency_format','$about_text','$newsletter_text','$footer_copyright',
+                                '$contact_address','$contact_number','$contact_email','$social_links')";
+                                $add_options_query = mysqli_query($conn, $add_options) or die("Query Failed");
+
+                                if($add_options_query) {
+                                    $message[] = "<span class='text-success'>Options added successfully...</span>";
+                                } else {
+                                    $message[] = "<span class='text-danger'>There was a problem with adding Options!</span>";
+                                }
+                            }
+                        ?>
+                        <?php
+                            if(isset($message)) {
+                                foreach ($message as $message) {
+                                    echo '
+                                        <div class="message">
+                                            <span>'.$message.'</span>
+                                            <i onclick="this.parentElement.remove();">&#10060;</i>
+                                        </div><!--message-->
+                                    ';
+                                }
+                            }
+                        ?>
                         <form class="row" method="post" enctype="multipart/form-data">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group mb-3">
@@ -36,12 +103,12 @@
                                     <input type="text" name="site_slogen" class="form-control">
                                 </div><!--form-group-->
                                 <div class="form-group mb-3">
-                                    <label for="about_text" class="form-label fw-bold">About Text:</label>
-                                    <textarea name="about_text" class="form-control"></textarea>
-                                </div><!--form-group-->
-                                <div class="form-group mb-3">
                                     <label for="site_description" class="form-label fw-bold">Site Description:</label>
                                     <textarea name="site_description" class="form-control"></textarea>
+                                </div><!--form-group-->
+                                <div class="form-group mb-3">
+                                    <label for="about_text" class="form-label fw-bold">About Text:</label>
+                                    <textarea name="about_text" class="form-control"></textarea>
                                 </div><!--form-group-->
                                 <div class="form-group mb-3">
                                     <label for="contact_address" class="form-label fw-bold">Contact Address:</label>
@@ -98,7 +165,7 @@
                                 </div><!--form-group-->
                             </div><!--col-lg-6-->
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button class="btn btn-primary rounded-pill py-3 px-5" name="add" type="submit">Add</button>
+                                <button class="btn btn-primary rounded-pill py-3 px-5" name="add_option" type="submit">Add</button>
                             </div><!--col-lg-12-->
                         </form>
                     </div><!--col-lg-10-->
