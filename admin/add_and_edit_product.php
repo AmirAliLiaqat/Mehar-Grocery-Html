@@ -26,24 +26,35 @@
                     <div class="col-lg-10 col-md-01 col-sm-12 admin_content p-3">
                         <?php 
                             require_once '../config.php';
-                            // error_reporting(0);
+                            error_reporting(0);
 
-                            // Code for adding the new post...
-                            if(isset($_POST['publish'])) {
+                            // Code for adding the new product...
+                            if(isset($_POST['add_product'])) {
+                                $product_code = uniqid();
                                 $product_title = mysqli_real_escape_string($conn, $_POST['product_title']);
                                 $product_description = mysqli_real_escape_string($conn, $_POST['product_description']);
-                                $product_excerpt = mysqli_real_escape_string($conn, $_POST['product_excerpt']);
-                                $product_author = mysqli_real_escape_string($conn, $_POST['product_author']);
+                                $product_brand = mysqli_real_escape_string($conn, $_POST['product_brand']);
+                                $product_category = mysqli_real_escape_string($conn, $_POST['product_category']);
+                                $product_sub_category = mysqli_real_escape_string($conn, $_POST['product_sub_category']);
+                                $product_stock_qty = mysqli_real_escape_string($conn, $_POST['product_stock_qty']);
+                                $product_stock_status = mysqli_real_escape_string($conn, $_POST['product_stock_status']);
+                                $product_weight = mysqli_real_escape_string($conn, $_POST['product_weight']);
+                                $product_shipping = mysqli_real_escape_string($conn, $_POST['product_shipping']);
+                                $product_length = mysqli_real_escape_string($conn, $_POST['product_length']);
+                                $product_width = mysqli_real_escape_string($conn, $_POST['product_width']);
+                                $product_height = mysqli_real_escape_string($conn, $_POST['product_height']);
+                                $product_dimension = $product_length . ', ' . $product_weight . ', ' . $product_height;
                                 $product_status = mysqli_real_escape_string($conn, $_POST['product_status']);
+                                $product_author = mysqli_real_escape_string($conn, $_POST['product_author']);
+                                $product_SKU = mysqli_real_escape_string($conn, $_POST['product_SKU']);
+                                $product_reqular_price = mysqli_real_escape_string($conn, $_POST['product_reqular_price']);
+                                $product_sale_price = mysqli_real_escape_string($conn, $_POST['product_sale_price']);
+                                $product_tax = mysqli_real_escape_string($conn, $_POST['product_tax']);
                                 date_default_timezone_set("Asia/Karachi");
-                                $publish_date = date("M d Y");
+                                $publish_date = date("d, M Y");
 
                                 if($product_description == '') {
                                     $product_description = "";
-                                }
-
-                                if($product_excerpt == '') {
-                                    $product_excerpt = "";
                                 }
 
                                 if(isset($_FILES['featured_image']['name'])) {
@@ -61,15 +72,15 @@
                                     $featured_image = "";
                                 }
 
-                                $publish_post = "INSERT INTO `posts`(`featured_image`, `title`, `description`, `excerpt`, `author`, `status`, `publish_date`) 
-                                VALUES ('$featured_image','$product_title','$product_description','$product_excerpt', '$product_author','$product_status','$publish_date')";
+                                $publish_product = "INSERT INTO `products`(`product_code`, `featured_image`, `product_title`, `product_description`, `product_brand`, `product_category`, `product_sub_category`, `product_stock_qty`, `product_stock_status`, `product_weight`, `product_shipping`, `product_dimension`, `product_status`, `product_author`, `product_SKU`, `product_reqular_price`, `product_sale_price`, `product_tax`, `publish_date`) 
+                                VALUES ('$product_code','$featured_image','$product_title','$product_description','$product_brand','$product_category','$product_sub_category','$product_stock_qty','$product_stock_status','$product_weight','$product_shipping','$product_dimension','$product_status','$product_author','$product_SKU','$product_reqular_price','$product_sale_price','$product_tax','$publish_date')";
 
-                                $publish_product_query = mysqli_query($conn, $publish_post) or die('Query Failed');
+                                $publish_product_query = mysqli_query($conn, $publish_product) or die('Query Failed');
                             
                                 if($publish_product_query) {
-                                    $message[] = "Post publish successfully...";
+                                    $message[] = "Product added successfully...";
                                 } else {
-                                    $message[] = "There was a problem to publishing the post...";
+                                    $message[] = "There was a problem to adding the product...";
                                 }
                             }
                         ?>
@@ -97,17 +108,31 @@
                                             <div class="form-group mb-2">
                                                 <label for="product_brand" class="form-label">Select Brand:</label>
                                                 <select name="product_brand" class="form-select">
-                                                    <option value="draft" selected>Draft</option>
-                                                    <option value="publish">Publish</option>
+                                                    <option value="">--select brand--</option>
+                                                    <?php
+                                                        $fetch_brands = "SELECT * FROM `brands`";
+                                                        $fetch_brands_query = mysqli_query($conn, $fetch_brands) or die("Query Failed");
+
+                                                        while($brands = mysqli_fetch_assoc($fetch_brands_query)) :
+                                                    ?>
+                                                    <option value="<?php echo $brands['brand_id']; ?>"><?php echo $brands['brand_title']; ?></option>
+                                                    <?php endwhile; ?>
                                                 </select>
                                             </div><!--form-group-->
                                         </div><!--col-6-->
                                         <div class="col-6">
                                             <div class="form-group mb-2">
                                                 <label for="product_category" class="form-label">Select Category:</label>
-                                                <select name="product_category" class="form-select">
-                                                    <option value="draft" selected>Draft</option>
-                                                    <option value="publish">Publish</option>
+                                                <select name="product_category" class="form-select" required>
+                                                    <option value="">--select category--</option>
+                                                    <?php
+                                                        $fetch_categories = "SELECT * FROM `categories`";
+                                                        $fetch_categories_query = mysqli_query($conn, $fetch_categories) or die("Query Failed");
+
+                                                        while($categories = mysqli_fetch_assoc($fetch_categories_query)) :
+                                                    ?>
+                                                    <option value="<?php echo $categories['cat_id']; ?>"><?php echo $categories['cat_name']; ?></option>
+                                                    <?php endwhile; ?>
                                                 </select>
                                             </div><!--form-group-->
                                         </div><!--col-6-->
@@ -115,8 +140,15 @@
                                             <div class="form-group mb-2">
                                                 <label for="product_sub_category" class="form-label">Select Sub Category:</label>
                                                 <select name="product_sub_category" class="form-select">
-                                                    <option value="draft" selected>Draft</option>
-                                                    <option value="publish">Publish</option>
+                                                    <option value="">--select sub category--</option>
+                                                    <?php
+                                                        $fetch_sub_categories = "SELECT * FROM `sub_categories`";
+                                                        $fetch_sub_categories_query = mysqli_query($conn, $fetch_sub_categories) or die("Query Failed");
+
+                                                        while($sub_categories = mysqli_fetch_assoc($fetch_sub_categories_query)) :
+                                                    ?>
+                                                    <option value="<?php echo $sub_categories['sub_cat_id']; ?>"><?php echo $sub_categories['sub_cat_title']; ?></option>
+                                                    <?php endwhile; ?>
                                                 </select>
                                             </div><!--form-group-->
                                         </div><!--col-6-->
@@ -128,15 +160,15 @@
                                         <div class="col-6">
                                             <div class="form-group mb-3">
                                                 <label for="product_stock_qty">Stock Qty:</label>
-                                                <input type="text" name="product_stock_qty" class="form-control">
+                                                <input type="text" name="product_stock_qty" class="form-control" required>
                                             </div><!--form-group-->
                                         </div><!--col-6-->
                                         <div class="col-6">
                                             <div class="form-group mb-3">
                                                 <label for="product_stock_status">Stock Status:</label>
-                                                <select name="product_stock_status" class="form-select">
-                                                    <option value="0" selected>In stock</option>
-                                                    <option value="1">Out of stock</option>
+                                                <select name="product_stock_status" class="form-select" required>
+                                                    <option value="0">Out of stock</option>
+                                                    <option value="1" selected>In stock</option>
                                                 </select>
                                             </div><!--form-group-->
                                         </div><!--col-6-->
@@ -196,7 +228,7 @@
                                     </div><!--form-group-->
                                     <div class="form-group mb-3">
                                         <label for="product_reqular_price">Regular Price:</label>
-                                        <input type="text" name="product_reqular_price" class="form-control">
+                                        <input type="text" name="product_reqular_price" class="form-control" required>
                                     </div><!--form-group-->
                                     <div class="form-group mb-3">
                                         <label for="product_sale_price">Sale Price:</label>
