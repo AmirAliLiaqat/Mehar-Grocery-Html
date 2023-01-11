@@ -88,7 +88,7 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success rounded" href="add_and_edit_product.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&product_id=<?php echo $row['product_id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a class="btn btn-success rounded" href="add_and_edit_product.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&query=edit_product&product_id=<?php echo $row['product_id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <a class="btn btn-danger rounded" href="delete.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&product_id=<?php echo $row['product_id']; ?>" role="button"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
