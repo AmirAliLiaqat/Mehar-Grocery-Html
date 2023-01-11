@@ -29,11 +29,12 @@
                             <thead>
                                 <tr class="table-dark text-center">
                                     <th>Sr#</th>
+                                    <th class="text-start">Product Code</th>
                                     <th>Image</th>
                                     <th class="text-start">Name</th>
-                                    <th>SKU</th>
-                                    <th>Stock</th>
                                     <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Stock Status</th>
                                     <th>Categories</th>
                                     <th>Date</th>
                                     <th>Status</th>
@@ -43,25 +44,43 @@
                             <tbody>
                                 <?php
                                     require_once '../config.php';
-                                    $fetch_posts = "SELECT * FROM `posts`";
-                                    $fetch_posts_query = mysqli_query($conn, $fetch_posts) or die("Query Failed");
+                                    $fetch_products = "SELECT * FROM `products`";
+                                    $fetch_products_query = mysqli_query($conn, $fetch_products) or die("Query Failed");
                                     $sr = 1;
 
-                                    if(mysqli_num_rows($fetch_posts_query) > 0) {
-                                        while($row = mysqli_fetch_assoc($fetch_posts_query)) {
+                                    if(mysqli_num_rows($fetch_products_query) > 0) {
+                                        while($row = mysqli_fetch_assoc($fetch_products_query)) {
                                 ?>
                                 <tr class="text-center">
                                     <td><?php echo $sr++; ?></td>
+                                    <td class="text-start"><?php echo $row['product_code']; ?></td>
                                     <td><img src="../upload-images/<?php echo $row['featured_image']; ?>" width="50" height="50" class="rounded"></td>
-                                    <td class="text-start"><?php echo $row['title']; ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="text-start"><?php echo $row['product_title']; ?></td>
+                                    <td><?php echo $row['product_reqular_price']; ?></td>
+                                    <td><?php echo $row['product_stock_qty']; ?></td>
+                                    <td>
+                                        <?php 
+                                            if($row['product_stock_status'] == '1') {
+                                                echo "<span class='btn btn-primary rounded-pill py-1 px-3'>In stock</span>";
+                                            } else {
+                                                echo "<span class='btn btn-danger rounded-pill py-1 px-3'>Out of stock</span>";
+                                            }
+                                        ?>
+                                    </td>
+                                    <?php 
+                                        $cat_id = $row['product_category'];
+                                        $fetch_category = "SELECT `cat_name` FROM `categories` WHERE `cat_id` = '$cat_id'";
+                                        $fetch_category_query = mysqli_query($conn, $fetch_category) or die("Query Failed");
+
+                                        while($category = mysqli_fetch_assoc($fetch_category_query)):
+                                    ?>
+                                    <td>
+                                        <?php echo $category['cat_name']; ?></td>
+                                    <?php endwhile; ?>
                                     <td><?php echo $row['publish_date']; ?></td>
                                     <td>
                                         <?php 
-                                            if($row['status'] == 'publish') {
+                                            if($row['product_status'] == 'publish') {
                                                 echo "<span class='btn btn-primary rounded-pill py-1 px-3'>publish</span>";
                                             } else {
                                                 echo "<span class='btn btn-danger rounded-pill py-1 px-3'>draft</span>";
@@ -69,8 +88,8 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-success rounded" href="add_and_edit_post.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&post_id=<?php echo $row['id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a class="btn btn-danger rounded" href="delete.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&post_id=<?php echo $row['id']; ?>" role="button"><i class="fa-solid fa-trash"></i></a>
+                                        <a class="btn btn-success rounded" href="add_and_edit_product.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&product_id=<?php echo $row['product_id']; ?>" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a class="btn btn-danger rounded" href="delete.php?result=<?php echo sha1("Don't do inlegal activities"); ?>&product_id=<?php echo $row['product_id']; ?>" role="button"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <?php
