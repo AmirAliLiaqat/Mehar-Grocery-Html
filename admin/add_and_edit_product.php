@@ -79,6 +79,71 @@
                                     $message[] = "There was a problem to adding the product...";
                                 }
                             }
+
+                            // Code for updating the product...
+                            if(isset($_POST['update_product'])) {
+                                $product_id = $_GET['product_id'];
+                                $product_title = mysqli_real_escape_string($conn, $_POST['product_title']);
+                                $product_description = mysqli_real_escape_string($conn, $_POST['product_description']);
+                                $product_brand = mysqli_real_escape_string($conn, $_POST['product_brand']);
+                                $product_category = mysqli_real_escape_string($conn, $_POST['product_category']);
+                                $product_sub_category = mysqli_real_escape_string($conn, $_POST['product_sub_category']);
+                                $product_stock_qty = mysqli_real_escape_string($conn, $_POST['product_stock_qty']);
+                                $product_stock_status = mysqli_real_escape_string($conn, $_POST['product_stock_status']);
+                                $product_weight = mysqli_real_escape_string($conn, $_POST['product_weight']);
+                                $product_shipping = mysqli_real_escape_string($conn, $_POST['product_shipping']);
+                                $product_status = mysqli_real_escape_string($conn, $_POST['product_status']);
+                                $product_SKU = mysqli_real_escape_string($conn, $_POST['product_SKU']);
+                                $product_reqular_price = mysqli_real_escape_string($conn, $_POST['product_reqular_price']);
+                                $product_sale_price = mysqli_real_escape_string($conn, $_POST['product_sale_price']);
+                                $product_tax = mysqli_real_escape_string($conn, $_POST['product_tax']);
+                                $current_image = mysqli_real_escape_string($conn, $_POST['current_image']);
+                                $update_by = mysqli_real_escape_string($conn, $_POST['update_by']);
+                                date_default_timezone_set("Asia/Karachi");
+                                $update_date = date("d, M Y");
+
+                                if($product_description == '') {
+                                    $product_description = "";
+                                }
+
+                                if(isset($_FILES['featured_image']['name'])) { 
+                                    $featured_image = $_FILES['featured_image']['name'];
+                                
+                                    if($featured_image != "") {
+                                        // Auto rename image
+                                        $ext = end(explode('.',$featured_image));
+                                        // Rename the image
+                                        $featured_image = "product_".rand(00,99).'.'.$ext;
+                                        $source_path = $_FILES['featured_image']['tmp_name'];
+                                        $destination_path = "../upload-images/".$featured_image;
+                                
+                                        // Finally upload the image
+                                        $upload = move_uploaded_file($source_path, $destination_path);
+                                
+                                        if($current_image != "") {
+                                            // Remove the current image
+                                            $remove_path = "../upload-images/".$current_image;
+                                            $remove_image = unlink($remove_path);
+                                        }
+                                
+                                    } else {
+                                        $featured_image = $current_image;
+                                    }
+                                    
+                                } else {
+                                    $featured_image = $current_image;
+                                }
+
+                                $update_product = "UPDATE `products` SET `featured_image`='$featured_image',`product_title`='$product_title',`product_description`='$product_description',`product_brand`='$product_brand',`product_category`='$product_category',`product_sub_category`='$product_sub_category',`product_stock_qty`='$product_stock_qty',`product_stock_status`='$product_stock_status',`product_weight`='$product_weight',`product_shipping`='$product_shipping',`product_status`='$product_status',`product_SKU`='$product_SKU',`product_reqular_price`='$product_reqular_price',`product_sale_price`='$product_sale_price',`product_tax`='$product_tax',`update_by`='$update_by',`update_date`='$update_date' WHERE `product_id` = '$product_id'";
+
+                                $update_product_query = mysqli_query($conn, $update_product) or die('Query Failed');
+                            
+                                if($update_product_query) {
+                                    $message[] = "<span class='text-success'>Product updated successfully...</span>";
+                                } else {
+                                    $message[] = "<span class='text-danger'>There was a problem to updating the product...</span>";
+                                }
+                            }
                         ?>
                         <?php
                             if(isset($message)) {
@@ -209,8 +274,8 @@
                                         </select>
                                     </div><!--form-group-->
                                     <div class="form-group">
-                                        <label for="product_author" class="form-label">Author: </label>
-                                        <input type="hidden" class="text-lowercase form-control" name="product_author" value="<?php echo $_SESSION['fname']; ?>">
+                                        <label for="update_by" class="form-label">Update by: </label>
+                                        <input type="hidden" class="text-lowercase form-control" name="update_by" value="<?php echo $_SESSION['fname']; ?>">
                                         <span class="text-lowercase"><?php echo $_SESSION['fname']; ?></span>
                                     </div><!--form-group-->
                                 </div><!--widget-->
@@ -244,7 +309,7 @@
                                         </select>
                                     </div><!--form-group-->
                                 </div><!--widget-->
-                                <input type="hidden" name="current_image" value="<?php $row['featured_image'] ?>">
+                                <input type="hidden" name="current_image" value="<?php echo $row['featured_image'] ?>">
                                 <button class="btn btn-primary rounded-pill float-end py-3 px-5" name="update_product" type="submit">Update Product</button>
                             </div><!--col-lg-4-->
                             <?php endwhile; ?>
