@@ -68,6 +68,26 @@
                                     $featured_image = "";
                                 }
 
+                                // if(isset($product_category)) { $cat_id = $product_category; } else { $cat_id = 0;}
+                                // $add_product_category = "SELECT COUNT(`product_id`) AS cat_product_count FROM `products` WHERE `product_category` = '$cat_id'";
+                                // $add_product_category_query = mysqli_query($conn, $add_product_category) or die("Query Failed");
+
+                                // while($cat_product = mysqli_fetch_assoc($add_product_category_query)) :
+                                //     $cat_products = $cat_product['cat_product_count'];
+                                //     $update_category = "UPDATE `categories` SET `products`='$cat_products' WHERE `cat_id` = $cat_id";
+                                //     $update_category_query = mysqli_query($conn, $update_category) or die("Problem to adding product in category...");
+                                // endwhile;
+
+                                // if(isset($product_sub_category)) { $sub_cat_id = $product_sub_category; } else { $sub_cat_id = 0; }
+                                // $add_product_sub_category = "SELECT COUNT(`product_id`) AS sub_cat_product_count FROM `products` WHERE `product_sub_category` = '$sub_cat_id'";
+                                // $add_product_sub_category_query = mysqli_query($conn, $add_product_sub_category) or die("Query Failed");
+
+                                // while($sub_cat_product = mysqli_fetch_assoc($add_product_sub_category_query)) :
+                                //     $sub_cat_products = $sub_cat_product['sub_cat_product_count'];
+                                //     $update_sub_category = "UPDATE `sub_categories` SET `cat_products`='$sub_cat_products' WHERE `sub_cat_id` = $sub_cat_id";
+                                //     $update_sub_category_query = mysqli_query($conn, $update_sub_category) or die("Problem to adding product in category...");
+                                // endwhile;
+
                                 $publish_product = "INSERT INTO `products`(`product_code`, `featured_image`, `product_title`, `product_description`, `product_brand`, `product_category`, `product_sub_category`, `product_stock_qty`, `product_stock_status`, `product_weight`, `product_shipping`,`product_status`, `product_author`, `product_SKU`, `product_reqular_price`, `product_sale_price`, `product_tax`, `publish_date`) 
                                 VALUES ('$product_code','$featured_image','$product_title','$product_description','$product_brand','$product_category','$product_sub_category','$product_stock_qty','$product_stock_status','$product_weight','$product_shipping','$product_status','$product_author','$product_SKU','$product_reqular_price','$product_sale_price','$product_tax','$publish_date')";
 
