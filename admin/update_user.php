@@ -50,14 +50,14 @@
                                         // Rename the image
                                         $profile_pic = "profile_pic_".rand(00,99).'.'.$ext;
                                         $source_path = $_FILES['profile_pic']['tmp_name'];
-                                        $destination_path = "upload-images/".$profile_pic;
+                                        $destination_path = "../upload-images/".$profile_pic;
 
                                         // Finally upload the image
                                         $upload = move_uploaded_file($source_path, $destination_path);
 
                                         if($current_image != "") {
                                             // Remove the current image
-                                            $remove_path = "upload-images/".$current_image;
+                                            $remove_path = "../upload-images/".$current_image;
                                             $remove_image = unlink($remove_path);
                                         }
 
