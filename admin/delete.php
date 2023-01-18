@@ -6,6 +6,7 @@
     $message_id = $_GET['message_id'];
     $user_id = $_GET['user_id'];
     $cat_id = $_GET['cat_id'];
+    $sub_cat_id = $_GET['sub_cat_id'];
 
     $select_post_img = "SELECT `featured_image` FROM `posts` WHERE `id` = '$post_id'";
     $select_post_img_query = mysqli_query($conn, $select_post_img) or die("Query Unsuccessfull");
@@ -55,6 +56,14 @@
         $delete_category_query = mysqli_query($conn, $delete_category);
 
         header('location: categories.php');
+    }
+
+    // code for deleting sub categories...
+    if(isset($sub_cat_id)) {
+        $delete_sub_category = "DELETE FROM `sub_categories` WHERE `sub_cat_id` = $sub_cat_id";
+        $delete_sub_category_query = mysqli_query($conn, $delete_sub_category);
+
+        header('location: sub_categories.php');
     }
 
 ?>
