@@ -78,6 +78,17 @@
     setTimeout(function() {
         $('.message').fadeOut('fast');
     }, 5000);
+
+    // toggle dashboard cards
+    $("#total_summary").click(function() {
+        $("#total_summary_body").slideToggle();
+    });
+    $("#month_summary").click(function() {
+        $("#month_summary_body").slideToggle();
+    });
+    $("#login_stats").click(function() {
+        $("#login_stats_body").slideToggle();
+    });
     
 })(jQuery);
 
