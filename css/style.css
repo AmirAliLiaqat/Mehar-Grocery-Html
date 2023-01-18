@@ -29,6 +29,11 @@
     background-size: contain;
 }
 
+/*** Pagination ***/
+.pagination .btn.current{
+    background-color: #157347;
+}
+
 /*** Message ***/
 .message{
     width: 100%;
