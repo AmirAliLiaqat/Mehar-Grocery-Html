@@ -40,18 +40,18 @@
                 <div class="col-lg-5 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="bg-primary text-white d-flex flex-column justify-content-center h-100 p-5">
                         <h5 class="text-white">Call Us</h5>
-                        <p class="mb-5"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p class="mb-5"><i class="fa fa-phone-alt me-3"></i><?php echo $_SESSION['contact_number']; ?></p>
                         <h5 class="text-white">Email Us</h5>
-                        <p class="mb-5"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                        <p class="mb-5"><i class="fa fa-envelope me-3"></i><?php echo $_SESSION['contact_email']; ?></p>
                         <h5 class="text-white">Office Address</h5>
-                        <p class="mb-5"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                        <p class="mb-5"><i class="fa fa-map-marker-alt me-3"></i><?php echo $_SESSION['contact_address']; ?></p>
                         <h5 class="text-white">Follow Us</h5>
                         <div class="d-flex pt-2">
-                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href="<?php echo $_SESSION['social_links']; ?>"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href="<?php echo $_SESSION['social_links']; ?>"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href="<?php echo $_SESSION['social_links']; ?>"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-square btn-outline-light rounded-circle me-1" href="<?php echo $_SESSION['social_links']; ?>"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-square btn-outline-light rounded-circle me-0" href="<?php echo $_SESSION['social_links']; ?>"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                 </div><!--col-lg-5-->
