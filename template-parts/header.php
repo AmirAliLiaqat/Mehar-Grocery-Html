@@ -1,4 +1,26 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+
+    require_once './config.php';
+
+    $fetch_options = "SELECT * FROM `options`";
+    $fetch_options_query = mysqli_query($conn, $fetch_options) or die("Query Failed");
+
+    while($options = mysqli_fetch_assoc($fetch_options_query)) :
+        $_SESSION['site_name'] = $options['site_name'];
+        $_SESSION['site_logo'] = $options['site_logo'];
+        $_SESSION['site_slogen'] = $options['site_slogen'];
+        $_SESSION['site_description'] = $options['site_description'];
+        $_SESSION['currency_format'] = $options['currency_format'];
+        $_SESSION['about_text'] = $options['about_text'];
+        $_SESSION['newsletter_text'] = $options['newsletter_text'];
+        $_SESSION['footer_text'] = $options['footer_text'];
+        $_SESSION['contact_address'] = $options['contact_address'];
+        $_SESSION['contact_number'] = $options['contact_number'];
+        $_SESSION['contact_email'] = $options['contact_email'];
+        $_SESSION['social_links'] = $options['social_links'];
+    endwhile;
+?>
 <!-- Spinner Start -->
 <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
     <div class="spinner-border text-primary" role="status"></div>
@@ -23,7 +45,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
         <a href="index.php" class="navbar-brand ms-4 ms-lg-0">
-            <img src="img/logo.png">
+            <img src="upload-images/<?php echo $_SESSION['site_logo']; ?>">
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
