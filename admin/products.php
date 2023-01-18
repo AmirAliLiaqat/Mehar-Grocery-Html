@@ -78,7 +78,7 @@
                                     <td class="text-start"><?php echo $row['product_code']; ?></td>
                                     <td><img src="../upload-images/<?php echo $row['featured_image']; ?>" width="50" height="50" class="rounded"></td>
                                     <td class="text-start"><?php echo $row['product_title']; ?></td>
-                                    <td><?php echo $row['product_reqular_price']; ?></td>
+                                    <td><?php echo number_format($row['product_reqular_price']); ?></td>
                                     <td><?php echo $row['product_stock_qty']; ?></td>
                                     <td>
                                         <?php 
@@ -130,7 +130,7 @@
                                 <a href="products.php?page=<?php echo $page-1; ?>" class="btn btn-success mx-2">Prev</a>
                             <?php }
                             for($page = 1; $page <= $number_of_page; $page++) { ?>
-                                <a href="products.php?page=<?php echo $page; ?>" class="btn btn-success mx-2 <?php if($_GET["page"] == $page) echo "current" ?>"><?php echo $page; ?></a>
+                                <a href="products.php?page=<?php echo $page; ?>" class="btn btn-success mx-2"><?php echo $page; ?></a>
                             <?php }
                             if($page < $number_of_page){ ?>
                                 <a href="products.php?page=<?php echo $page=1; ?>" class="btn btn-success mx-2">Next</a>
