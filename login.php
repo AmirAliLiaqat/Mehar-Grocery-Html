@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Login - Mehar Grocery</title>
+    <title>Login - <?php session_start(); echo $_SESSION['site_name']; ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -26,8 +26,6 @@
                 <div class="col-lg-7 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
                     <?php 
                         require_once 'config.php';
-
-                        session_start();
 
                         if(isset($_POST['login'])) {
                     

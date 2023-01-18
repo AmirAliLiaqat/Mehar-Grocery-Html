@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Contact - Mehar Grocery</title>
+    <title>Contact - <?php session_start(); echo $_SESSION['site_name']; ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
