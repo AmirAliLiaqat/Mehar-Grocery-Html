@@ -8,6 +8,7 @@
     $cat_id = $_GET['cat_id'];
     $sub_cat_id = $_GET['sub_cat_id'];
     $brand_id = $_GET['brand_id'];
+    $product_id = $_GET['product_id'];
 
     $select_post_img = "SELECT `featured_image` FROM `posts` WHERE `id` = '$post_id'";
     $select_post_img_query = mysqli_query($conn, $select_post_img) or die("Query Unsuccessfull");
@@ -31,6 +32,32 @@
             $delete_post_query = mysqli_query($conn, $delete_post);
     
             header('location: posts.php');
+        }
+        
+    }
+
+    $select_product_img = "SELECT `featured_image` FROM `products` WHERE `product_id` = '$product_id'";
+    $select_product_img_query = mysqli_query($conn, $select_product_img) or die("Query Unsuccessfull");
+
+    while($product_img = mysqli_fetch_assoc($select_product_img_query)) {
+        $featured_image = $product_img['featured_image'];
+    }
+
+    // code for deletig products...
+    if(isset($product_id) AND isset($featured_image)) {
+
+        $delete_access = "<script>alert('Are you really want to delete this account....')</script>";
+
+        if(isset($delete_access)) {
+            if($featured_image != "") {
+                $image_path = "../upload-images/".$featured_image;
+                $remove_image = unlink($image_path);
+            }
+    
+            $delete_product = "DELETE FROM `products` WHERE `product_id` = $product_id";
+            $delete_product_query = mysqli_query($conn, $delete_product);
+    
+            header('location: products.php');
         }
         
     }
