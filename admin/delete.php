@@ -7,6 +7,7 @@
     $user_id = $_GET['user_id'];
     $cat_id = $_GET['cat_id'];
     $sub_cat_id = $_GET['sub_cat_id'];
+    $brand_id = $_GET['brand_id'];
 
     $select_post_img = "SELECT `featured_image` FROM `posts` WHERE `id` = '$post_id'";
     $select_post_img_query = mysqli_query($conn, $select_post_img) or die("Query Unsuccessfull");
@@ -64,6 +65,14 @@
         $delete_sub_category_query = mysqli_query($conn, $delete_sub_category);
 
         header('location: sub_categories.php');
+    }
+
+    // code for deleting sub brands...
+    if(isset($brand_id)) {
+        $delete_brands = "DELETE FROM `brands` WHERE `brand_id` = $brand_id";
+        $delete_brands_query = mysqli_query($conn, $delete_brands);
+
+        header('location: brands.php');
     }
 
 ?>
