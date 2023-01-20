@@ -78,7 +78,10 @@
                                 <a class="text-body" href="view_product/<?php echo $product['product_title']; ?>"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                             </small>
                             <small class="w-50 text-center py-2">
-                                <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                <form action="add_cart.php" method="post">
+                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                    <button class="btn btn-primary" name="add_to_cart"><i class="fa fa-shopping-bag text-white me-2"></i>Add to cart</button>
+                                </form>
                             </small>
                         </div><!--d-flex-->
                     </div><!--product-item-->
