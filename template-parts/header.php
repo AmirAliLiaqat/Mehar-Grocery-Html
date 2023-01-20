@@ -34,10 +34,10 @@
         </div>
         <div class="col-lg-6 px-5 text-end">
             <small>Follow us:</small>
-            <a class="text-body ms-3" href=""><i class="fab fa-facebook-f"></i></a>
-            <a class="text-body ms-3" href=""><i class="fab fa-twitter"></i></a>
-            <a class="text-body ms-3" href=""><i class="fab fa-linkedin-in"></i></a>
-            <a class="text-body ms-3" href=""><i class="fab fa-instagram"></i></a>
+            <a class="text-body ms-3" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a class="text-body ms-3" href="#"><i class="fab fa-twitter"></i></a>
+            <a class="text-body ms-3" href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a class="text-body ms-3" href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
 
@@ -66,7 +66,7 @@
                 <a href="contact.php" class="nav-item nav-link">Contact Us</a>
             </div><!--navbar-nav-->
             <div class="d-none d-lg-flex ms-2">
-                <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                <a class="btn-sm-square bg-white rounded-circle ms-3" href="search.php">
                     <small class="fa fa-search text-body"></small>
                 </a>
                 <div class="nav-item dropdown">
@@ -92,7 +92,7 @@
                     </div><!--dropdown-->
                 </div><!--nav-item-->
                 
-                <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                <a class="btn-sm-square bg-white rounded-circle ms-3" href="cart.php">
                     <small class="fa fa-shopping-bag text-body"></small>
                 </a>
             </div><!--d-none-->
