@@ -12,14 +12,14 @@
 
 <body>
     
-    <?php require 'template-parts/header.php'; ?>
+    <?php require 'template-parts/header.php'; if(isset($_SESSION['success'])) echo $_SESSION['success']; ?>
 
     <!-- Carousel Start -->
     <div class="container-fluid p-0 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="img/carousel-1.jpg" alt="Image">
+                    <img class="w-100" src="img/bg-icon.png" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-start">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="img/carousel-2.jpg" alt="Image">
+                    <img class="w-100" src="img/bg-icon.png" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-start">
@@ -155,7 +155,7 @@
                                     <?php } ?>
                                 </div><!--position-relative-->
                                 <div class="text-center p-4">
-                                    <a class="d-block h5 mb-2" href="view_product/<?php echo $product['product_title']; ?>"><?php echo $product['product_title']; ?></a>
+                                    <a class="d-block h5 mb-2" href="view_product/?product_id=<?php echo $product['product_id']; ?>"><?php echo $product['product_title']; ?></a>
                                     <?php if($product['product_sale_price'] != 0) { ?>
                                     <span class="text-primary me-1"><?php echo number_format($product['product_sale_price']) . ' ' . $_SESSION['currency_format']; ?></span>
                                     <span class="text-body text-decoration-line-through"><?php echo number_format($product['product_reqular_price']) . ' ' . $_SESSION['currency_format']; ?></span>
@@ -164,11 +164,14 @@
                                     <?php } ?>
                                 </div><!--text-center-->
                                 <div class="d-flex border-top">
-                                    <small class="w-50 text-center border-end py-2">
-                                        <a class="text-body" href="view_product/<?php echo $product['product_title']; ?>"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                    <small class="w-50 text-center border-end py-3">
+                                        <a class="text-body" href="view_product/?product_id=<?php echo $product['product_id']; ?>"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                                     </small>
                                     <small class="w-50 text-center py-2">
-                                        <a class="text-body" href=""><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                        <form action="add_cart.php" method="post">
+                                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                            <button class="btn btn-primary" name="add_to_cart"><i class="fa fa-shopping-bag text-white me-2"></i>Add to cart</button>
+                                        </form>
                                     </small>
                                 </div><!--d-flex-->
                             </div><!--product-item-->
