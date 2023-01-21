@@ -29,8 +29,8 @@
 <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s">
     <div class="top-bar row gx-0 align-items-center d-none d-lg-flex">
         <div class="col-lg-6 px-5 text-start">
-            <small><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</small>
-            <small class="ms-4"><i class="fa fa-envelope me-2"></i>info@example.com</small>
+            <small><i class="fa fa-map-marker-alt me-2"></i><?php echo $_SESSION['contact_address']; ?></small>
+            <small class="ms-4"><i class="fa fa-envelope me-2"></i><?php echo $_SESSION['contact_email']; ?></small>
         </div>
         <div class="col-lg-6 px-5 text-end">
             <small>Follow us:</small>
@@ -95,6 +95,20 @@
                 <a class="btn-sm-square bg-white rounded-circle ms-3" href="cart.php">
                     <small class="fa fa-shopping-bag text-body"></small>
                 </a>
+                <?php
+                    if(isset($_SESSION['id'])) {
+                        $user_id = $_SESSION['id'];
+
+                        $fetch_cart = "SELECT COUNT(cart_id) AS `cart_num` FROM `cart` WHERE `user_id` = '$user_id'";
+                        $fetch_cart_query = mysqli_query($conn, $fetch_cart);
+
+                        while($cart = mysqli_fetch_assoc($fetch_cart_query)) :
+                            echo "(" . $cart['cart_num'] . ")";
+                        endwhile;
+                    } else {
+                        echo "(0)";
+                    }
+                ?>
             </div><!--d-none-->
         </div><!--collapse-->
     </nav>
