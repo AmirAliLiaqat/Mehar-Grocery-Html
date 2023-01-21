@@ -29,20 +29,162 @@
     </div>
     <!-- Page Header End -->
 
-    <!-- Product Start -->
+    <!-- Checkout Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-0 gx-5 align-items-end">
                 <div class="col-lg-6">
                     <div class="section-header text-start mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-                        <h1 class="display-5 mb-3">Your Checkout</h1>
+                        <h1 class="display-5 mb-3">Checkout</h1>
                         <p>Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
                     </div><!--section-header-->
                 </div><!--col-lg-6-->
             </div><!--row-->
+            <?php
+                require_once 'config.php';
+            ?>
+            <form class="row my-3" method="post">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card text-dark mb-3">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Buyer Info <a href="login.php" class="site_text float-end">Login Here</a></h4>
+                        </div><!--card-header-->
+                        <div class="card-body">
+                            <div class="row form-group px-3">
+                                <label for="fname" class="col-sm-4 form-label p-3">First Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="fname">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="lname" class="col-sm-4 form-label p-3">Last Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="lname">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="address1" class="col-sm-4 form-label p-3">Address 1:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="address1">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="address2" class="col-sm-4 form-label p-3">Address 2:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="address2">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="city" class="col-sm-4 form-label p-3">City:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="city">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="postal_code" class="col-sm-4 form-label p-3">Postal Code:</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control bg-light" name="postal_code">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="state" class="col-sm-4 form-label p-3">State:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="state">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                            <div class="row form-group px-3">
+                                <label for="country" class="col-sm-4 form-label p-3">Country:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control bg-light" name="country">
+                                </div><!--col-sm-8-->
+                            </div><!--row-->
+                        </div><!--card-body-->
+                    </div><!--card-->
+                </div><!--col-lg-6-->
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card text-dark mb-3">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Billing Details</h4>
+                        </div><!--card-header-->
+                        <?php 
+                            $user_id = $_SESSION['id'];
+                            $fetch_amount = "SELECT COUNT(cart_id) AS `counter` FROM `cart` WHERE `user_id` = '$user_id'";
+                            $fetch_amount_query = mysqli_query($conn, $fetch_amount);
+
+                            $fetch_cart = "SELECT * FROM `cart` WHERE `user_id` = '$user_id'";
+                            $fetch_cart_query = mysqli_query($conn, $fetch_cart);
+
+                            $grand_total = 0;
+                            $shipping_fee = 99;
+
+                            while($cart = mysqli_fetch_assoc($fetch_cart_query)) :
+                                $product_id = $cart['product_id'];
+
+                                $fetch_product = "SELECT * FROM `products` WHERE `product_id` = '$product_id'";
+                                $fetch_product_query = mysqli_query($conn, $fetch_product);
+                                
+                                while($product = mysqli_fetch_assoc($fetch_product_query)) :
+                                    $sub_total = $product['product_reqular_price'] * $cart['product_qty'];
+                                    $grand_total += $sub_total;
+                                endwhile; 
+                            endwhile;
+                        ?>
+                        <div class="card-body">
+                          <p class="card-text">
+                            Subtotal (<?php while($amount=mysqli_fetch_assoc($fetch_amount_query)) : echo $amount['counter']; endwhile; ?> items)
+                            <span class="site_text float-end"><?php echo number_format($grand_total); echo ' ' . $_SESSION['currency_format']; ?></span>
+                          </p>
+                          <p class="card-text">
+                            Shipping Fee
+                            <span class="site_text float-end"><?php echo number_format($shipping_fee); echo ' ' . $_SESSION['currency_format']; ?></span>
+                          </p>
+                        </div><!--card-body-->
+                        <?php //endwhile; //endwhile; ?>
+                        <div class="card-footer">
+                            <h6 class="card-title">
+                                Total
+                                <span class="site_text float-end">Rs. <?php echo number_format($grand_total + $shipping_fee); echo ' ' . $_SESSION['currency_format']; ?></span>
+                            </h6>
+                        </div><!--card-footer-->
+                    </div><!--card-->
+                    <div class="card text-dark mb-3">
+                        <div class="card-header">
+                            <h4 class="card-title text-uppercase">Payment Methods</h4>
+                        </div><!--card-header-->
+                        <div class="card-body p-5">
+                            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <div class="payment-cards">
+                                <i class="fa-brands fa-3x fa-cc-paypal"></i>
+                                <i class="fa-brands fa-3x fa-cc-stripe"></i>
+                                <i class="fa-brands fa-3x fa-cc-visa"></i>
+                                <i class="fa-brands fa-3x fa-cc-mastercard"></i>
+                                <i class="fa-brands fa-3x fa-cc-amex"></i>
+                                <i class="fa-solid fa-3x fa-wallet"></i>
+                            </div><!--payment-cards-->
+                            <div class="form-group mt-3">
+                                <label for="payment_method" class="form-label fw-bold">Select Payment Method</label>
+                                <select name="payment_method" class="form-select">
+                                    <option value="cash on delivery">cash on delivery</option>
+                                    <option value="bank transfer">bank transfer</option>
+                                    <option value="credit card">credit card</option>
+                                    <option value="paypal">paypal</option>
+                                    <option value="strip">strip</option>
+                                    <option value="visa">visa</option>
+                                    <option value="mastercard">mastercard</option>
+                                </select>
+                            </div><!--form-group-->
+                        </div><!--card-body-->
+                    </div><!--card-->
+                </div><!--col-lg-6-->
+                <div class="col-xl-12 col-lg-12">
+                    <div class="text-end my-5">
+                        <button class="btn btn-lg btn-success" name="place_order">Place Order</button>
+                    </div><!--text-end-->
+                </div><!--col-xl-12-->
+            </form><!--row-->
         </div><!--container-->
     </div><!--container-xxl-->
-    <!-- Product End -->
+    <!-- Checkout End -->
 
     <!-- Firm Visit Start -->
     <div class="container-fluid bg-primary bg-icon mt-5 py-6">
