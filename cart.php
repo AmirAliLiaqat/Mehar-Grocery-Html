@@ -156,7 +156,7 @@
                         <td><?php echo number_format($grand_total); echo ' ' . $_SESSION['currency_format']; ?></td>
                         <td>
                             <form action="" method="post">
-                                <button class="btn btn-danger" name="delete_all"><i class="fa-solid fa-trash"></i> Delete All</button>
+                                <button class="btn btn-danger <?php echo ($grand_total > 1)?'':'disabled'; ?>" name="delete_all"><i class="fa-solid fa-trash"></i> Delete All</button>
                             </form>
                         </td>
                     </tr>
@@ -164,7 +164,7 @@
             </table>
             <div class="">
                 <a href="product.php" class="btn btn-danger">Continue Shopping</a>
-                <a href="checkout.php" class="btn btn-success float-end">Proceed to checkout</a>
+                <a href="checkout.php" class="btn btn-success float-end <?php echo ($grand_total > 1)?'':'disabled'; ?>">Proceed to checkout</a>
             </div><!--row-->
         </div><!--container-->
     </div><!--container-xxl-->
