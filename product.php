@@ -68,7 +68,7 @@
                                 </div><!--text-center-->
                                 <div class="d-flex border-top">
                                     <small class="w-50 text-center border-end py-3">
-                                        <a class="text-body" href="view_product.php/?product_id=<?php echo $product['product_id']; ?>"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
+                                        <a class="text-body" href="view_product.php?product_id=<?php echo $product['product_id']; ?>"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                                     </small>
                                     <small class="w-50 text-center py-2">
                                         <form action="add_cart.php" method="post">
