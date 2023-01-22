@@ -42,6 +42,49 @@
             </div><!--row-->
             <?php
                 require_once 'config.php';
+
+                if(isset($_POST['place_order'])) {
+                    // var_dump($_POST);
+
+                    $user_id = mysqli_real_escape_string($conn, $_SESSION['id']);
+                    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+                    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+                    $user_name = $fname . ' ' . $lname;
+                    $city = mysqli_real_escape_string($conn, $_POST['city']);
+                    $state = mysqli_real_escape_string($conn, $_POST['state']);
+                    $country = mysqli_real_escape_string($conn, $_POST['country']);
+                    $product_qty = mysqli_real_escape_string($conn, $_POST['product_qty']);
+                    $total_amount = mysqli_real_escape_string($conn, $_POST['total_amount']);
+                    $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method']);
+
+                    date_default_timezone_set("Asia/Karachi");
+                    $order_date = date("d-M-Y"); 
+
+                    $order = "INSERT INTO `orders`(`user_id`, `user_name`, `city`, `state`, `country`, `product_qty`, `total_amount`, `payment_method`, `order_date`) 
+                    VALUES ('$user_id','$user_name','$city','$state','$country','$product_qty','$total_amount','$payment_method','$order_date')";
+                    $order_query = mysqli_query($conn, $order);
+
+                    if($order) {
+                        $delete_cart = "DELETE FROM `cart` WHERE `user_id` =  '$user_id'";
+                        $delete_cart_query = mysqli_query($conn, $delete_cart);
+
+                        $message[] = "<span class='text-success'>Your order placed successfully...</span>";
+                    } else {
+                        $message[] = "<span class='text-danger'>Order can't be placed!</span>";
+                    }
+                }
+            ?>
+            <?php
+                if(isset($message)) {
+                    foreach ($message as $message) {
+                        echo '
+                            <div class="message">
+                                <span>'.$message.'</span>
+                                <i onclick="this.parentElement.remove();">&#10060;</i>
+                            </div><!--message-->
+                        ';
+                    }
+                }
             ?>
             <form class="row my-3" method="post">
                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -53,49 +96,31 @@
                             <div class="row form-group px-3">
                                 <label for="fname" class="col-sm-4 form-label p-3">First Name:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="fname">
+                                    <input type="text" class="form-control bg-light" name="fname" required>
                                 </div><!--col-sm-8-->
                             </div><!--row-->
                             <div class="row form-group px-3">
                                 <label for="lname" class="col-sm-4 form-label p-3">Last Name:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="lname">
-                                </div><!--col-sm-8-->
-                            </div><!--row-->
-                            <div class="row form-group px-3">
-                                <label for="address1" class="col-sm-4 form-label p-3">Address 1:</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="address1">
-                                </div><!--col-sm-8-->
-                            </div><!--row-->
-                            <div class="row form-group px-3">
-                                <label for="address2" class="col-sm-4 form-label p-3">Address 2:</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="address2">
+                                    <input type="text" class="form-control bg-light" name="lname" required>
                                 </div><!--col-sm-8-->
                             </div><!--row-->
                             <div class="row form-group px-3">
                                 <label for="city" class="col-sm-4 form-label p-3">City:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="city">
-                                </div><!--col-sm-8-->
-                            </div><!--row-->
-                            <div class="row form-group px-3">
-                                <label for="postal_code" class="col-sm-4 form-label p-3">Postal Code:</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control bg-light" name="postal_code">
+                                    <input type="text" class="form-control bg-light" name="city" required>
                                 </div><!--col-sm-8-->
                             </div><!--row-->
                             <div class="row form-group px-3">
                                 <label for="state" class="col-sm-4 form-label p-3">State:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="state">
+                                    <input type="text" class="form-control bg-light" name="state" required>
                                 </div><!--col-sm-8-->
                             </div><!--row-->
                             <div class="row form-group px-3">
                                 <label for="country" class="col-sm-4 form-label p-3">Country:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control bg-light" name="country">
+                                    <input type="text" class="form-control bg-light" name="country" required>
                                 </div><!--col-sm-8-->
                             </div><!--row-->
                         </div><!--card-body-->
@@ -131,7 +156,9 @@
                         ?>
                         <div class="card-body">
                           <p class="card-text">
-                            Subtotal (<?php while($amount=mysqli_fetch_assoc($fetch_amount_query)) : echo $amount['counter']; endwhile; ?> items)
+                            Subtotal (<?php while($amount=mysqli_fetch_assoc($fetch_amount_query)) : echo $amount['counter']; ?>
+                            <input type="hidden" name="product_qty" value="<?php echo $amount['counter']; ?>"><?php
+                            endwhile; ?> items)
                             <span class="site_text float-end"><?php echo number_format($grand_total); echo ' ' . $_SESSION['currency_format']; ?></span>
                           </p>
                           <p class="card-text">
@@ -143,7 +170,9 @@
                         <div class="card-footer">
                             <h6 class="card-title">
                                 Total
-                                <span class="site_text float-end">Rs. <?php echo number_format($grand_total + $shipping_fee); echo ' ' . $_SESSION['currency_format']; ?></span>
+                                <?php $total = $grand_total + $shipping_fee; ?>
+                                <input type="hidden" name="total_amount" value="<?php echo $total; ?>">
+                                <span class="site_text float-end"><?php echo number_format($grand_total + $shipping_fee); echo ' ' . $_SESSION['currency_format']; ?></span>
                             </h6>
                         </div><!--card-footer-->
                     </div><!--card-->
