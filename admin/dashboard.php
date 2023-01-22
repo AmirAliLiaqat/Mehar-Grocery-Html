@@ -97,15 +97,15 @@
                                     <!-- orders -->
                                     <div class="col-md-6 col-sm-12">
                                         <?php 
-                                            // $fetch_orders = "SELECT COUNT(order_id) AS order FROM `orders`";
-                                            // $fetch_orders_query = mysqli_query($conn, $fetch_orders) or die("Query Failed");
-                                            // while($orders = mysqli_fetch_assoc($fetch_orders_query)) {
+                                            $fetch_orders = "SELECT COUNT(order_id) AS order_count FROM `orders`";
+                                            $fetch_orders_query = mysqli_query($conn, $fetch_orders) or die("Query Failed");
+                                            while($orders = mysqli_fetch_assoc($fetch_orders_query)) {
                                         ?>
                                         <div class="col-inner text-center bg-light my-2 p-3">
                                             <h2 class="fw-bold">Orders</h2>
-                                            <h3 class="text-success">0<?php //echo number_format($orders['order']); ?></h3>
+                                            <h3 class="text-success"><?php echo number_format($orders['order_count']); ?></h3>
                                         </div><!--col-inner-->
-                                        <?php //} ?>
+                                        <?php } ?>
                                     </div><!--col-md-6-->
                                     <!-- brands -->
                                     <div class="col-md-6 col-sm-12">
@@ -156,11 +156,29 @@
                                     </div><!--card-header-->
                                     <div class="card-body" id="total_summary_body">
                                         <?php 
-                                            $fetch_admin_users = "SELECT COUNT(id) AS admin FROM `users` WHERE `status` = 'admin'";
-                                            $fetch_admin_users_query = mysqli_query($conn, $fetch_admin_users) or die("Query Failed");
-                                            while($admin_users = mysqli_fetch_assoc($fetch_admin_users_query)) {
+                                            $fetch_total_amount = "SELECT * FROM
+                                            (SELECT SUM(total_amount) AS A FROM `orders`)A,
+                                            (SELECT SUM(total_amount) AS B FROM `orders` WHERE `payment_method` = 'cash on delivery')B,
+                                            (SELECT SUM(total_amount) AS C FROM `orders` WHERE `payment_method` = 'bank transfer')C,
+                                            (SELECT SUM(total_amount) AS D FROM `orders` WHERE `payment_method` = 'credit card')D,
+                                            (SELECT SUM(total_amount) AS H FROM `orders` WHERE `payment_method` = 'mastercard')E,
+                                            (SELECT SUM(total_amount) AS E FROM `orders` WHERE `payment_method` = 'paypal')F,
+                                            (SELECT SUM(total_amount) AS F FROM `orders` WHERE `payment_method` = 'strip')G,
+                                            (SELECT SUM(total_amount) AS G FROM `orders` WHERE `payment_method` = 'visa')H
+                                            ";
+                                            $fetch_total_amount_query = mysqli_query($conn, $fetch_total_amount) or die("Query Failed");
+                                            while($total_summary = mysqli_fetch_assoc($fetch_total_amount_query)) {
                                         ?>
-                                        <h5 class="card-title text-white">Amount Received: <?php echo number_format($admin_users['admin']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Amount Received: <?php echo number_format($total_summary['A']); ?></h5>
+                                        <hr>
+                                        <h5 class="card-title text-white mb-3">Cash on delivery: <?php echo number_format($total_summary['B']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Bank Transfer: <?php echo number_format($total_summary['C']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Credit Card: <?php echo number_format($total_summary['D']); ?></h5>
+                                        <hr>
+                                        <h5 class="card-title text-white mb-3">Mastercard: <?php echo number_format($total_summary['E']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Paypal: <?php echo number_format($total_summary['F']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Strip: <?php echo number_format($total_summary['G']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Visa: <?php echo number_format($total_summary['H']); ?></h5>
                                         <?php } ?>
                                     </div><!--card-body-->
                                 </div><!--card-->
@@ -170,12 +188,14 @@
                                         <h3 class="text-white">Summary <?php echo date('M, Y'); ?> <i class="fas fa-plus float-end" id="month_summary"></i></h3>
                                     </div><!--card-header-->
                                     <div class="card-body" id="month_summary_body">
-                                        <?php 
-                                            $fetch_normal_users = "SELECT COUNT(id) AS normal FROM `users` WHERE `status` = 'user'";
-                                            $fetch_normal_users_query = mysqli_query($conn, $fetch_normal_users) or die("Query Failed");
-                                            while($normal_users = mysqli_fetch_assoc($fetch_normal_users_query)) {
+                                        <?php
+                                            $current_month = date('m');
+                                            $current_year = date('Y');
+                                            $fetch_month_amount = "SELECT SUM(total_amount) AS month_total_amount FROM `orders` WHERE `order_date` BETWEEN date('01-$current_month-$current_year') AND date('30-$current_month-$current_year')";
+                                            $fetch_month_amount_query = mysqli_query($conn, $fetch_month_amount) or die("Query Failed");
+                                            while($month_amount = mysqli_fetch_assoc($fetch_month_amount_query)) {
                                         ?>
-                                        <h5 class="card-title text-white">Amount Received: <?php echo number_format($normal_users['normal']); ?></h5>
+                                        <h5 class="card-title text-white">Amount Received: <?php echo number_format($month_amount['month_total_amount']); ?></h5>
                                         <?php } ?>
                                     </div><!--card-body-->
                                 </div><!--card-->
