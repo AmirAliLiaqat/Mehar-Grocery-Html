@@ -161,10 +161,10 @@
                                             (SELECT SUM(total_amount) AS B FROM `orders` WHERE `payment_method` = 'cash on delivery')B,
                                             (SELECT SUM(total_amount) AS C FROM `orders` WHERE `payment_method` = 'bank transfer')C,
                                             (SELECT SUM(total_amount) AS D FROM `orders` WHERE `payment_method` = 'credit card')D,
-                                            (SELECT SUM(total_amount) AS H FROM `orders` WHERE `payment_method` = 'mastercard')E,
-                                            (SELECT SUM(total_amount) AS E FROM `orders` WHERE `payment_method` = 'paypal')F,
-                                            (SELECT SUM(total_amount) AS F FROM `orders` WHERE `payment_method` = 'strip')G,
-                                            (SELECT SUM(total_amount) AS G FROM `orders` WHERE `payment_method` = 'visa')H
+                                            (SELECT SUM(total_amount) AS E FROM `orders` WHERE `payment_method` = 'paypal')E,
+                                            (SELECT SUM(total_amount) AS F FROM `orders` WHERE `payment_method` = 'strip')F,
+                                            (SELECT SUM(total_amount) AS G FROM `orders` WHERE `payment_method` = 'visa')G,
+                                            (SELECT SUM(total_amount) AS H FROM `orders` WHERE `payment_method` = 'mastercard')H
                                             ";
                                             $fetch_total_amount_query = mysqli_query($conn, $fetch_total_amount) or die("Query Failed");
                                             while($total_summary = mysqli_fetch_assoc($fetch_total_amount_query)) {
@@ -175,10 +175,10 @@
                                         <h5 class="card-title text-white mb-3">Bank Transfer: <?php echo number_format($total_summary['C']); ?></h5>
                                         <h5 class="card-title text-white mb-3">Credit Card: <?php echo number_format($total_summary['D']); ?></h5>
                                         <hr>
-                                        <h5 class="card-title text-white mb-3">Mastercard: <?php echo number_format($total_summary['E']); ?></h5>
-                                        <h5 class="card-title text-white mb-3">Paypal: <?php echo number_format($total_summary['F']); ?></h5>
-                                        <h5 class="card-title text-white mb-3">Strip: <?php echo number_format($total_summary['G']); ?></h5>
-                                        <h5 class="card-title text-white mb-3">Visa: <?php echo number_format($total_summary['H']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Paypal: <?php echo number_format($total_summary['E']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Strip: <?php echo number_format($total_summary['F']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Visa: <?php echo number_format($total_summary['G']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Mastercard: <?php echo number_format($total_summary['H']); ?></h5>
                                         <?php } ?>
                                     </div><!--card-body-->
                                 </div><!--card-->
