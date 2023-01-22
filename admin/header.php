@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php
+    require_once '../config.php';
+    session_start();
+
+    $fetch_options = "SELECT * FROM `options`";
+    $fetch_options_query = mysqli_query($conn, $fetch_options) or die("Query Failed");
+
+    while($options = mysqli_fetch_assoc($fetch_options_query)) :
+        $_SESSION['currency_format'] = $options['currency_format'];
+    endwhile;
+?>
 
 <!-- Spinner Start -->
 <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
