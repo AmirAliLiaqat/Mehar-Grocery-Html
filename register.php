@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Register - <?php session_start(); echo $_SESSION['site_name']; ?></title>
+    <title>Register - <?php session_start(); if(isset($_SESSION['site_name'])) { echo $_SESSION['site_name']; } else {echo "Mehar Grocery";} ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
