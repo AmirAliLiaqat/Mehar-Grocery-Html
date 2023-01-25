@@ -58,7 +58,7 @@
                                     <?php } ?>
                                 </div><!--position-relative-->
                                 <div class="text-center p-4">
-                                    <a class="d-block h5 mb-2" href="view_product/<?php echo $product['product_title']; ?>"><?php echo $product['product_title']; ?></a>
+                                    <a class="d-block h5 mb-2" href="view_product.php?product_id=<?php echo $product['product_id']; ?>"><?php echo $product['product_title']; ?></a>
                                     <?php if($product['product_sale_price'] != 0) { ?>
                                     <span class="text-primary me-1"><?php echo number_format($product['product_sale_price']) . ' ' . $_SESSION['currency_format']; ?></span>
                                     <span class="text-body text-decoration-line-through"><?php echo number_format($product['product_reqular_price']) . ' ' . $_SESSION['currency_format']; ?></span>
