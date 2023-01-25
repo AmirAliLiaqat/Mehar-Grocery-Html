@@ -60,17 +60,21 @@
                     date_default_timezone_set("Asia/Karachi");
                     $order_date = date("d-M-Y"); 
 
-                    $order = "INSERT INTO `orders`(`user_id`, `user_name`, `city`, `state`, `country`, `product_qty`, `total_amount`, `payment_method`, `order_date`) 
-                    VALUES ('$user_id','$user_name','$city','$state','$country','$product_qty','$total_amount','$payment_method','$order_date')";
-                    $order_query = mysqli_query($conn, $order);
+                    if($product_qty >= 1) {
+                        $order = "INSERT INTO `orders`(`user_id`, `user_name`, `city`, `state`, `country`, `product_qty`, `total_amount`, `payment_method`, `order_date`) 
+                        VALUES ('$user_id','$user_name','$city','$state','$country','$product_qty','$total_amount','$payment_method','$order_date')";
+                        $order_query = mysqli_query($conn, $order);
 
-                    if($order) {
-                        $delete_cart = "DELETE FROM `cart` WHERE `user_id` =  '$user_id'";
-                        $delete_cart_query = mysqli_query($conn, $delete_cart);
+                        if($order) {
+                            $delete_cart = "DELETE FROM `cart` WHERE `user_id` =  '$user_id'";
+                            $delete_cart_query = mysqli_query($conn, $delete_cart);
 
-                        $message[] = "<span class='text-success'>Your order placed successfully...</span>";
+                            $message[] = "<span class='text-success'>Your order placed successfully...</span>";
+                        } else {
+                            $message[] = "<span class='text-danger'>Order can't be placed!</span>";
+                        }
                     } else {
-                        $message[] = "<span class='text-danger'>Order can't be placed!</span>";
+                        $message[] = "<span class='text-danger'>Your cart is empty!</span>";
                     }
                 }
             ?>
