@@ -200,9 +200,9 @@
                                     </div><!--card-body-->
                                 </div><!--card-->
                                 <!-- user last login card -->
-                                <div class="card text-white bg-secondary mb-3">
+                                <div class="card text-dark bg-light mb-3">
                                     <div class="card-header">
-                                        <h3 class="text-white">User Last Login Stats <i class="fas fa-plus float-end" id="login_stats"></i></h3>
+                                        <h3 class="text-dark">User Last Login Stats <i class="fas fa-plus float-end" id="login_stats"></i></h3>
                                     </div><!--card-header-->
                                     <div class="card-body" id="login_stats_body">
                                         <?php 
@@ -210,7 +210,7 @@
                                             $fetch_normal_users_query = mysqli_query($conn, $fetch_normal_users) or die("Query Failed");
                                             while($normal_users = mysqli_fetch_assoc($fetch_normal_users_query)) {
                                         ?>
-                                        <h5 class="card-title text-white mb-3"><?php echo $normal_users['fname']; ?>: <?php echo $normal_users['last_login_details']; ?></h5>
+                                        <h5 class="card-title text-dark mb-3" style="font-size:1.1rem;"><?php echo $normal_users['fname']; echo ' ' . $normal_users['lname']; ?>: <?php echo $normal_users['last_login_details']; ?></h5>
                                         <?php } ?>
                                     </div><!--card-body-->
                                 </div><!--card-->
