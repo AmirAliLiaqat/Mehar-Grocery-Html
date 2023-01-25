@@ -41,6 +41,14 @@
                 </div><!--col-lg-6-->
             </div><!--row-->
             <?php
+                error_reporting(0);
+                if(!isset($_SESSION['id'])) { 
+                    $delete_cart = "DELETE FROM `cart` WHERE `user_id` = 0";
+                    $delete_cart_query = mysqli_query($conn, $delete_cart);
+                    $message[] = "<span class='text-warning'>First login to your account to continue shopping!</span>"; 
+                }
+            ?>
+            <?php
                 if(isset($_POST['delete_item'])) {
                     $remove_product_id = mysqli_real_escape_string($conn, $_POST['remove_product_id']);
                     $remove_product_title = mysqli_real_escape_string($conn, $_POST['remove_product_title']);
@@ -164,7 +172,7 @@
             </table>
             <div class="">
                 <a href="product.php" class="btn btn-danger">Continue Shopping</a>
-                <a href="checkout.php" class="btn btn-success float-end <?php echo ($grand_total > 1)?'':'disabled'; ?>">Proceed to checkout</a>
+                <a href="checkout.php" class="btn btn-success float-end <?php echo ($grand_total > 1)?'':'disabled'; if(!isset($_SESSION['id'])) : echo 'disabled'; endif; ?>">Proceed to checkout</a>
             </div><!--row-->
         </div><!--container-->
     </div><!--container-xxl-->
