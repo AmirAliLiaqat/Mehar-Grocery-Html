@@ -1,5 +1,1 @@
 ErrorDocument 404 http://localhost/PHP_Websites/mehar-grocery/404.php
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_URI} ^/404/$
-RewriteRule ^(.*)$ /pages/404.php [L]
