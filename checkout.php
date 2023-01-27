@@ -62,7 +62,7 @@
                     $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method']);
 
                     date_default_timezone_set("Asia/Karachi");
-                    $order_date = date("d-M-Y"); 
+                    $order_date = date("Y-m-d"); 
 
                     if($product_qty >= 1) {
                         $order = "INSERT INTO `orders`(`user_id`, `user_name`, `city`, `state`, `country`, `product_qty`, `total_amount`, `payment_method`, `order_date`) 
