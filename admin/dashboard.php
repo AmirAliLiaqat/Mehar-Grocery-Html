@@ -149,6 +149,21 @@
                                 </div><!--row-->
                             </div><!--col-md-8-->
                             <div class="col-md-4 col-sm-12">
+                                <!-- user last login card -->
+                                <div class="card text-dark bg-light mb-3">
+                                    <div class="card-header">
+                                        <h3 class="text-dark">User Last Login Stats <i class="fas fa-plus float-end" id="login_stats"></i></h3>
+                                    </div><!--card-header-->
+                                    <div class="card-body" id="login_stats_body">
+                                        <?php 
+                                            $fetch_normal_users = "SELECT * FROM `users`";
+                                            $fetch_normal_users_query = mysqli_query($conn, $fetch_normal_users) or die("Query Failed");
+                                            while($normal_users = mysqli_fetch_assoc($fetch_normal_users_query)) {
+                                        ?>
+                                        <h5 class="card-title text-dark mb-3" style="font-size:1.1rem;"><?php echo $normal_users['fname']; echo ' ' . $normal_users['lname']; ?>: <?php echo $normal_users['last_login_details']; ?></h5>
+                                        <?php } ?>
+                                    </div><!--card-body-->
+                                </div><!--card-->
                                 <!-- total summary card -->
                                 <div class="card text-white bg-primary mb-3">
                                     <div class="card-header">
@@ -189,28 +204,31 @@
                                     </div><!--card-header-->
                                     <div class="card-body" id="month_summary_body">
                                         <?php
-                                            echo$current_month = date('m');
-                                            echo$current_year = date('Y');
-                                            $fetch_month_amount = "SELECT SUM(total_amount) AS month_total_amount FROM `orders` WHERE `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30')";
+                                            $current_month = date('m');
+                                            $current_year = date('Y');
+                                            $fetch_month_amount = "SELECT * FROM
+                                            (SELECT SUM(total_amount) AS month_total_amount FROM `orders` WHERE `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))A,
+                                            (SELECT SUM(total_amount) AS B FROM `orders` WHERE `payment_method` = 'cash on delivery' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))B,
+                                            (SELECT SUM(total_amount) AS C FROM `orders` WHERE `payment_method` = 'bank transfer' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))C,
+                                            (SELECT SUM(total_amount) AS D FROM `orders` WHERE `payment_method` = 'credit card' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))D,
+                                            (SELECT SUM(total_amount) AS E FROM `orders` WHERE `payment_method` = 'paypal' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))E,
+                                            (SELECT SUM(total_amount) AS F FROM `orders` WHERE `payment_method` = 'strip' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))F,
+                                            (SELECT SUM(total_amount) AS G FROM `orders` WHERE `payment_method` = 'visa' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))G,
+                                            (SELECT SUM(total_amount) AS H FROM `orders` WHERE `payment_method` = 'mastercard' AND `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30'))H
+                                            ";
                                             $fetch_month_amount_query = mysqli_query($conn, $fetch_month_amount) or die("Query Failed");
                                             while($month_amount = mysqli_fetch_assoc($fetch_month_amount_query)) {
                                         ?>
                                         <h5 class="card-title text-white">Amount Received: <?php echo number_format($month_amount['month_total_amount']); ?></h5>
-                                        <?php } ?>
-                                    </div><!--card-body-->
-                                </div><!--card-->
-                                <!-- user last login card -->
-                                <div class="card text-dark bg-light mb-3">
-                                    <div class="card-header">
-                                        <h3 class="text-dark">User Last Login Stats <i class="fas fa-plus float-end" id="login_stats"></i></h3>
-                                    </div><!--card-header-->
-                                    <div class="card-body" id="login_stats_body">
-                                        <?php 
-                                            $fetch_normal_users = "SELECT * FROM `users`";
-                                            $fetch_normal_users_query = mysqli_query($conn, $fetch_normal_users) or die("Query Failed");
-                                            while($normal_users = mysqli_fetch_assoc($fetch_normal_users_query)) {
-                                        ?>
-                                        <h5 class="card-title text-dark mb-3" style="font-size:1.1rem;"><?php echo $normal_users['fname']; echo ' ' . $normal_users['lname']; ?>: <?php echo $normal_users['last_login_details']; ?></h5>
+                                        <hr>
+                                        <h5 class="card-title text-white mb-3">Cash on delivery: <?php echo number_format($month_amount['B']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Bank Transfer: <?php echo number_format($month_amount['C']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Credit Card: <?php echo number_format($month_amount['D']); ?></h5>
+                                        <hr>
+                                        <h5 class="card-title text-white mb-3">Paypal: <?php echo number_format($month_amount['E']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Strip: <?php echo number_format($month_amount['F']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Visa: <?php echo number_format($month_amount['G']); ?></h5>
+                                        <h5 class="card-title text-white mb-3">Mastercard: <?php echo number_format($month_amount['H']); ?></h5>
                                         <?php } ?>
                                     </div><!--card-body-->
                                 </div><!--card-->
