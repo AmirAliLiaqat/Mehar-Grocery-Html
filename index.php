@@ -80,7 +80,7 @@
                     <p><i class="fa fa-check text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
                     <p><i class="fa fa-check text-primary me-3"></i>Aliqu diam amet diam et eos</p>
                     <p><i class="fa fa-check text-primary me-3"></i>Clita duo justo magna dolore erat amet</p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">Read More</a>
+                    <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="about.php">Read More</a>
                 </div>
             </div>
         </div>
@@ -182,7 +182,7 @@
                         </div><!--col-xl-3-->
                         <?php endwhile; ?>
                         <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                            <a class="btn btn-primary rounded-pill py-3 px-5" href="?show_more">Browse More Products</a>
+                            <a class="btn btn-primary rounded-pill py-3 px-5" href="product.php">Browse More Products</a>
                         </div><!--col-12-->
                     </div><!--row-->
                 </div><!--tab-pane-->
