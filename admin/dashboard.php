@@ -189,9 +189,9 @@
                                     </div><!--card-header-->
                                     <div class="card-body" id="month_summary_body">
                                         <?php
-                                            $current_month = date('m');
-                                            $current_year = date('Y');
-                                            $fetch_month_amount = "SELECT SUM(total_amount) AS month_total_amount FROM `orders` WHERE `order_date` BETWEEN date('01-$current_month-$current_year') AND date('30-$current_month-$current_year')";
+                                            echo$current_month = date('m');
+                                            echo$current_year = date('Y');
+                                            $fetch_month_amount = "SELECT SUM(total_amount) AS month_total_amount FROM `orders` WHERE `order_date` BETWEEN date('$current_year-$current_month-01') AND date('$current_year-$current_month-30')";
                                             $fetch_month_amount_query = mysqli_query($conn, $fetch_month_amount) or die("Query Failed");
                                             while($month_amount = mysqli_fetch_assoc($fetch_month_amount_query)) {
                                         ?>
