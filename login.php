@@ -12,6 +12,12 @@
 
 <body>
 
+    <?php
+        if(isset($_SESSION["id"])) {
+            header('location: index.php');
+        }
+    ?>
+
     <!-- Contact Start -->
     <div class="container-xxl py-6">
         <div class="container">
