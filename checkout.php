@@ -12,7 +12,12 @@
 
 <body>
     
-    <?php require 'template-parts/header.php'; ?>
+    <?php 
+        if(!isset($_SESSION["id"])) {
+            header('location: index.php');
+        }
+        require 'template-parts/header.php'; 
+    ?>
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
@@ -44,7 +49,6 @@
                 require_once 'config.php';
 
                 if(isset($_POST['place_order'])) {
-                    // var_dump($_POST);
 
                     $user_id = mysqli_real_escape_string($conn, $_SESSION['id']);
                     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
